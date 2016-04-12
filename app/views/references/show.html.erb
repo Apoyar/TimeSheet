@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Str field:</strong>
+  <%= @reference.str_field %>
+</p>
+
+<p>
+  <strong>Int field:</strong>
+  <%= @reference.int_field %>
+</p>
+
+<%= link_to 'Edit', edit_reference_path(@reference) %> |
+<%= link_to 'Back', references_path %>

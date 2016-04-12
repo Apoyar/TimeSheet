@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  str_field: MyString
+  int_field: 1
+
+two:
+  str_field: MyString
+  int_field: 1
