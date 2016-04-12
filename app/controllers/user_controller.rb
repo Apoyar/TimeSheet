@@ -116,10 +116,6 @@ class UserController < ApplicationController
         def password_params
             params.require(:pass).permit(:old, :new, :repeat)
         end
-        
-        def password_params
-            params.require(:pass).permit(:old, :new, :repeat)
-        end
       
         def task_params
             params.require(:task).permit(:client_id, :project_id, :activity_id, :hours, :notes, :date)

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Apoyar</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body id='body-id'>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li <%=action_name=='list_tasks' ? "class=active":''%>><a href="/admin/list_tasks"><span class="glyphicon glyphicon-pencil"></span> Tasks</a></li>
+          <li <%=action_name=='history' ? "class=active":''%>><a href="/user/history"><span class="glyphicon glyphicon-calendar"></span> Projects</a></li>
+          <li <%=action_name=='history' ? "class=active":''%>><a href="/user/history"><span class="glyphicon glyphicon-calendar"></span> Users</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li <%=action_name=='user_edit' ? "class=active":''%>><a href="/admin/edit"><span class="glyphicon glyphicon-user"></span> <%=current_user.handle%></a></li>
+          <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log-Out</a></li>
+        </ul>
+    </div>
+  </div>
+</nav>
+<div style='height: 100px;'></div>
+<div class='container'>
+<div class='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
+<%=image_tag("apoyar.png", class: 'img-responsive')%>
+</div>
+</div>
+<br>
+<%= yield %>
+
+</body>
+</html>

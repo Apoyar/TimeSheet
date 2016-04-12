@@ -6,7 +6,7 @@ class MainController < ApplicationController
         elsif !current_user.is_admin
             redirect_to '/user/new_entry'
         elsif current_user.is_admin
-            redirect_to '/admin'
+            redirect_to '/admin/list_tasks'
         end
     end
 end

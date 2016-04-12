@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
+  #MAIN CONTROLLER
   root 'main#main'
   
+  #AUTH STUFF
   get 'login' => 'session#new'
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
   
+  #USER STUFF
   get 'user/new_entry' => 'user#new_task'
   
   post 'user/ajax/get_projects' => 'user#get_projects'
@@ -18,9 +21,12 @@ Rails.application.routes.draw do
   post 'user/update' => 'user#user_update'
   post 'user/change_password' => 'user#change_password'
   
+  #ADMIN STUFF
+  get 'admin/list_tasks' => 'admin#list_tasks'
   
-  get 'admin' => 'admin#list_tasks'
-  
+  get 'admin/edit' => 'admin#user_edit'
+  post 'admin/update' => 'admin#user_update'
+  post 'admin/change_password' => 'admin#change_password'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
