@@ -40,6 +40,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt'
 #fixes jquey
 gem 'jquery-turbolinks'
+#faker for seeding and testing
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -50,8 +52,6 @@ group :development, :test do
   #=====================
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
-  #faker for seeding and testing
-  gem 'faker'
   
 end
 
@@ -67,7 +67,6 @@ group :development do
   #=====================
   # Use sqlite3 as the database for Active Record
   gem 'pg'
-  #faker for seeding and testing
-  gem 'faker'
+
 end
 
