@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411213658) do
+ActiveRecord::Schema.define(version: 20160411101128) do
 
   create_table "activities", force: :cascade do |t|
     t.string  "name"
+    t.integer "client_id"
     t.integer "project_id"
   end
 
   create_table "assignments", force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "project_id"
+    t.integer "user_id"
     t.integer "activity_id"
   end
 
@@ -45,11 +45,6 @@ ActiveRecord::Schema.define(version: 20160411213658) do
     t.float   "hours"
     t.date    "date"
     t.text    "notes"
-  end
-
-  create_table "user_assignments", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "assignment_id"
   end
 
   create_table "users", force: :cascade do |t|

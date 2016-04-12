@@ -5,7 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-User.create(
+User.new(
     handle: 'ASergey',
     password: 'password',
     first_name: 'Sergey',
@@ -14,9 +14,9 @@ User.create(
     tel: '+32490436981',
     whatsapp: '+32490436981',
     is_admin: false
-)
-98.times do
-    user=User.create(
+).save
+10.times do
+    user=User.new(
         handle: Faker::Internet.user_name,
         password: Faker::Internet.password,
         first_name: Faker::Name.first_name,
@@ -26,47 +26,48 @@ User.create(
         whatsapp: Faker::PhoneNumber.cell_phone,
         is_admin: false
     )
+    user.save
 end
 u=User.all.count
 5.times do
-    client=Client.create(
+    client=Client.new(
         name: Faker::Company.name
     )
+    client.save
     [*1..5].sample.times do
-        project=client.projects.create(
+        project=client.projects.new(
             name: Faker::Hacker.noun
         )
-        [*1..10].sample.times do
-            activity=project.activities.create(
-                name: Faker::Hacker.adjective
+        project.save
+        [*1..5].sample.times do
+            activity=project.activities.new(
+                name: Faker::Hacker.adjective,
+                client_id: client.id
             )
-            [*0..10].sample.times do
-                ass=Assignment.create(
-                    client_id: client.id,
-                    project_id: project.id,
-                    activity_id: activity.id
-                )
+            activity.save
+            [*1..2].sample.times do
+                user=User.find([*1..u].sample)
+                if !activity.users.include? user
+                    Assignment.new(
+                        activity_id: activity.id,
+                        user_id: user.id
+                    ).save
+                end
             end
         end
     end
 end
-User.all.each do |user|
-    [*0..10].sample.times do
-        random_ass=[*1..Assignment.all.count].sample
-        ass=Assignment.find(random_ass)
-        if !ass.users.include? user
-            ass.users << user
-            [*0..10].sample.times do
-                ass.tasks.create(
-                    hours: 0.5*[*1..100].sample,
-                    date: Date.today-[*0..5].sample,
-                    notes: Faker::Lorem.paragraphs([*1..5].sample)
-                )
-            end
-        end
+Assignment.all.each do |ass|
+    [*1..5].sample.times do
+        task=ass.tasks.new(
+            date: Date.today-[*0..5].sample,
+            hours: 0.5*[*1..100].sample,
+            notes: Faker::Lorem.paragraph([*1..5].sample)
+        )
+        task.save
     end
 end
-User.create(
+User.new(
     handle: 'HDavid',
     password: 'password',
     first_name: 'David',
@@ -75,4 +76,4 @@ User.create(
     tel: '+3247781470659',
     whatsapp: '+34607482309',
     is_admin: true
-)
+).save

@@ -11,6 +11,20 @@
 // about supported directives.
 //
 //= require jquery
+
+//= require jquery.turbolinks
+
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+//= require jquery-ui-1.10.4.custom.min.js
+//= require bootstrap.min.js
+//= require gsdk-checkbox.js
+//= require gsdk-radio.js
+//= require gsdk-bootstrapswitch.js
+//= require get-shit-done.js
+//= require custom.js
+
+//= require turbolinks
+

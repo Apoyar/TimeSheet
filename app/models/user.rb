@@ -2,8 +2,9 @@ class User < ActiveRecord::Base
     
     #relationships
     has_many :tasks
-    has_many :user_assignments
-    has_many :assignments, through: :user_assignments
+    has_many :assignments
+    has_many :activities, through: :assignments
+    
     #variables for storing temp data
     attr_accessor :password, :password_verify
     
@@ -40,7 +41,4 @@ class User < ActiveRecord::Base
     def password_check
         return self.encrypted_password==BCrypt::Engine.hash_secret(self.password_verify, self.salt)
     end
-    
-    #validations
-    validates :handle, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
 end

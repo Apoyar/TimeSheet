@@ -6,8 +6,18 @@ Rails.application.routes.draw do
   get 'logout' => 'session#destroy'
   
   get 'user/new_entry' => 'user#new_task'
+  
   post 'user/ajax/get_projects' => 'user#get_projects'
   post 'user/ajax/get_activities' => 'user#get_activities'
+  
+  post 'user/create_entry' => 'user#create_task'
+  
+  get 'user/history' => 'user#history'
+  
+  get 'user/edit' => 'user#user_edit'
+  post 'user/update' => 'user#user_update'
+  post 'user/change_password' => 'user#change_password'
+  
   
   get 'admin' => 'admin#list_tasks'
   

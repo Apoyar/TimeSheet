@@ -1,55 +1,66 @@
 <div class='container'>
-<div class='col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4'>
-<form action='login' method='post'>
+<div class='col-xs-12 col-md-8 col-md-offset-2'>
+<form action='create_entry' method='post'>
+  
     <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-    <h2 class="text-center">New Entry</h2>
-    <br>
     <div class="form-group">
       <label for="client">Client:</label>
-      <select class="form-control" id="client" placeholder='select client...'>
+      <select name='task[client_id]' class="form-control" id="client" placeholder='select client...'>
         <option value="" disabled selected>Select the client...</option>
-        <%@user.assignments.each do |assignment|%>
-            <option value='<%=assignment.client.id%>'><%=assignment.client.name%></option>
+        <%@clients.each do |client|%>
+            <option value='<%=client.id%>'><%=client.name%></option>
         <%end%>
       </select>
     </div>
     <br>
+    
     <div class="form-group">
       <label for="project">Project:</label>
-      <select class="form-control" id="project">
+      <select name='task[project_id]' class="form-control" id="project" disabled>
         <option value="" disabled selected>Select the project...</option>
       </select>
     </div>
     <br>
+    
     <div class="form-group">
       <label for="activity">Activity:</label>
-      <select class="form-control" id="activity">
+      <select name='task[activity_id]' class="form-control" id="activity" disabled>
         <option value="" disabled selected>Select the activity...</option>
       </select>
     </div>
     <br>
+    
     <div class="form-group">
       <label for="date">Date:</label>
-      <select class="form-control" id="date">
+      <select name='task[date]' class="form-control" id="date">
         <%@today=Date.today%>
         <%5.times do%>
-            <option><%=@today%></option>
+            <option value='<%=@today%>'><%=@today%></option>
             <%@today-=1%>
         <%end%>
       </select>
     </div>
     <br>
+    
     <div class="form-group">
       <label for="hours">Hours:</label>
-      <select class="form-control" id="hours">
+      <select name='task[hours]' class="form-control" id="hours">
         <%@hours=0%>
         <%100.times do%>
-            <option><%=@hours+=0.5%></option>
+            <option value='<%=@hours+=0.5%>'><%=@hours%></option>
         <%end%>
       </select>
     </div>
     <br>
+    
+    <div class="form-group">
+      <label for="notes">Notes:</label>
+      <textarea name='task[notes]' class="form-control" id="notes" style='resize: none;' placeholder='Enter any task specific notes here...' cols='10'></textarea>
+    </div>
+    <br>
+    
     <div class='text-center'><button class="btn btn-block btn-primary" type="submit">Submit</button></div>
 </form>
+<br>
 </div>
 </div>

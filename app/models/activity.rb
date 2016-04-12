@@ -1,7 +1,11 @@
 class Activity < ActiveRecord::Base
     #relationships
     belongs_to :project
-    has_many :tasks
+    belongs_to :client
     has_many :assignments
     has_many :users, through: :assignments
+    #validations
+    validates :project_id, presence: true
+    validates :client_id, presence: true
+    validates_uniqueness_of :name, :scope => [:project_id]
 end

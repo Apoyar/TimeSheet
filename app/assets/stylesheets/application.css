@@ -12,4 +12,13 @@
  *
  *= require_tree .
  *= require_self
+ 
+ *= require bootstrap.min.css
+ *= require get-shit-done.css
+ *= require font-awesome.css
+ *= require gsdk-sliders.css
+ *= require gsdk-base.css
+ *= require gsdk-checkbox-radio-switch.css
+ *= require app.css
+ 
  */
