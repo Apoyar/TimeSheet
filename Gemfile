@@ -35,7 +35,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #=====================
 #PROJECT SPECIFIC GEMS
 #=====================
-
 #bcrypt for password hashing and salting
 gem 'bcrypt'
 #fixes jquey
@@ -61,12 +60,16 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  
+
+end
+
+group :production do
   #=====================
   #PROJECT SPECIFIC GEMS
   #=====================
   # Use sqlite3 as the database for Active Record
   gem 'pg'
-
+  #12factor for heroku
+  gem 'rails_12factor'
+  
 end
-
