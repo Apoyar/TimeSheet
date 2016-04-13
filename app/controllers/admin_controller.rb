@@ -2,6 +2,7 @@ class AdminController < ApplicationController
     before_action :check_admin
     
     def list_tasks
+        @tasks = Task.all
     end
     
     #edit user details
@@ -31,6 +32,10 @@ class AdminController < ApplicationController
     
     private
     # Never trust parameters from the scary internet, only allow the white list through.
+        def search_params
+            params.require(:search).permit(:client, :project, :date, :activity, :user, :hours)
+        end
+        
         def user_params
             params.require(:user).permit(:handle, :first_name, :last_name, :tel, :whatsapp, :email)
         end

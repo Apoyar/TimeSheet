@@ -1,0 +1,143 @@
+<div class='container-fluid'>
+<table class="table">
+
+<tr>
+    <form>
+        <th>
+            <label for="sU" class="sr-only">User:</label>
+            <input name='search[user]' type="text" id="sU" class="form-control" placeholder='Filter by user...'>
+        </th> 
+            
+        <th>
+            <label for="sC" class="sr-only">Client:</label>
+            <input name='search[client]' type="text" id="sC" class="form-control" placeholder='Filter by client...'>
+        </th> 
+        
+        <th>
+            <label for="sP" class="sr-only">Project:</label>
+            <input name='search[project]' type="text" id="sP" class="form-control" placeholder='Filter by project...'>
+        </th> 
+        
+        <th>
+            <label for="sA" class="sr-only">Activity:</label>
+            <input name='search[activity]' type="text" id="sA" class="form-control" placeholder='Filter by activity...'>
+        </th> 
+        
+        <th>
+            <label for="sD" class="sr-only">Date:</label>
+            <input name='search[date]' type="text" id="sD" class="form-control" placeholder='Filter by date...'>
+        </th> 
+        
+        <th>
+            <label for="sH" class="sr-only">Hours:</label>
+            <input name='search[hours]' type="text" id="sH" class="form-control" placeholder='Filter by hours...'>
+        </th> 
+            
+        <th>
+            <button type='submit' class="btn btn-success"><span class='glyphicon glyphicon-search'></span></button> 
+        </th>
+        
+        <th>
+        </th>
+        
+        <th>
+        </th>
+    </form>
+</tr>
+<tr>
+    <form>
+        <th>
+            <label class="radio ct-green">
+                <input type="radio" name="sort" data-toggle="radio" id="optionsRadios1" value="user" unchecked>
+                <i></i><b>User</b>
+            </label>
+        </th> 
+            
+        <th>
+            <label class="radio ct-green">
+                <input type="radio" name="sort" data-toggle="radio" id="optionsRadios1" value="client" unchecked>
+                <i></i><b>Client</b>
+            </label>
+        </th> 
+        
+        <th>
+            <label class="radio ct-green">
+                <input type="radio" name="sort" data-toggle="radio" id="optionsRadios1" value="project" unchecked>
+                <i></i><b>Project</b>
+            </label>
+        </th> 
+        
+        <th>
+            <label class="radio ct-green">
+                <input type="radio" name="sort" data-toggle="radio" id="optionsRadios1" value="activity" unchecked>
+                <i></i><b>Activity</b>
+            </label>
+        </th> 
+        
+        <th>
+            <label class="radio ct-green">
+                <input type="radio" name="sort" data-toggle="radio" id="optionsRadios1" value="date" unchecked>
+                <i></i><b>Date</b>
+            </label>
+        </th> 
+        
+        <th>
+            <label class="radio ct-green">
+                <input type="radio" name="sort" data-toggle="radio" id="optionsRadios1" value="hours" unchecked>
+                <i></i><b>Hours</b>
+            </label>
+        </th> 
+            
+        <th style='padding-top: 19px;'>
+            Notes
+        </th>
+        
+        <th>
+        </th>
+        
+        <th>
+        </th>
+        
+    </form>
+</tr>
+<%@tasks.each do |task|%>
+<tr>
+    <td><%=task.assignment.user.handle%></td>
+    <td><%=task.assignment.activity.client.name%></td>
+    <td><%=task.assignment.activity.project.name%></td>
+    <td><%=task.assignment.activity.name%></td>
+    <td><%=task.date%></td>
+    <td><%=task.hours%></td>
+    <td>
+        <!-- Button trigger modal -->
+        <button class="btn btn-default" data-toggle="modal" data-target="#notes<%=task.id%>"><span class='glyphicon glyphicon-file'></span></button>
+        <!-- Modal -->
+        <div class="modal fade" id="notes<%=task.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Notes</h4>
+              </div>
+              <div class="modal-body">
+                  <%=task.notes%>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </td>
+    <td>
+        <!-- Button trigger modal -->
+        <button class="btn btn-warning" data-toggle="modal" data-target="#edit<%=task.id%>">Edit</button>
+    </td>
+    <td>
+        <button class="btn btn-danger btn-fill delete-task" id="<%=task.id%>">Delete</button>
+    </td>
+</tr>
+<%end%>
+</table>
+<br>
+</div>
