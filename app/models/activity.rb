@@ -1,9 +1,13 @@
 class Activity < ActiveRecord::Base
     #relationships
     belongs_to :project
-    belongs_to :client
+    
+    has_one :client, through: :project
+    
     has_many :assignments
     has_many :users, through: :assignments
+    
+    has_many :tasks, through: :assignments
     #validations
     validates :project_id, presence: true
     validates :client_id, presence: true

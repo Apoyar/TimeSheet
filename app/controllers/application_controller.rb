@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   helper_method :current_user
-
+  
   private
     def check_admin
       if !current_user || !current_user.is_admin
@@ -23,6 +23,26 @@ class ApplicationController < ActionController::Base
         @current_user=User.find(session[:user_id])
       else
         @current_user=nil
+      end
+    end
+    
+    def iterate_add_tasks(obj)
+      obj.each do |o|
+          if @temp && defined? o.tasks
+            @temp+=o.tasks
+          elsif defined? o.tasks
+            @temp=o.tasks
+          end
+      end
+      return @temp
+    end
+    def total_hours(tasks)
+      if tasks
+        @total=0
+        tasks.each do |task|
+          @total+=task.hours
+        end
+        return @total
       end
     end
 end

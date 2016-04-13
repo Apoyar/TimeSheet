@@ -2,7 +2,19 @@ class AdminController < ApplicationController
     before_action :check_admin
     
     def list_tasks
-        @tasks = Task.all
+        @tasks=Task.all
+        if params[:search]
+            if !search_params[:user].empty?
+                @tasks=iterate_add_tasks User.where('handle LIKE ?', "%#{search_params[:user]}%")
+            elsif !search_params[:client].empty?
+                @tasks=iterate_add_tasks Client.where('name LIKE ?', "%#{search_params[:client]}%")
+            elsif !search_params[:project].empty?   
+                @tasks=iterate_add_tasks Project.where('name LIKE ?', "%#{search_params[:project]}%")
+            elsif !search_params[:activity].empty?
+                @tasks=iterate_add_tasks Activity.where('name LIKE ?', "%#{search_params[:activity]}%")
+            end
+        end
+        @hours=total_hours(@tasks)
     end
     
     #edit user details
@@ -33,7 +45,11 @@ class AdminController < ApplicationController
     private
     # Never trust parameters from the scary internet, only allow the white list through.
         def search_params
-            params.require(:search).permit(:client, :project, :date, :activity, :user, :hours)
+            params.require(:search).permit(:client, :project, :activity, :user)
+        end
+        
+        def sort_params
+            params.require(:sort)
         end
         
         def user_params

@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
     
     #relationships
-    has_many :tasks
+    has_many :tasks, through: :assignments
     has_many :assignments
     has_many :activities, through: :assignments
-    
+
     #variables for storing temp data
     attr_accessor :password, :password_verify
     
