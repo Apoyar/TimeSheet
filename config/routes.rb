@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   
   #ADMIN STUFF
   get 'admin/list_tasks' => 'admin#list_tasks'
+  post 'admin/delete_task' => 'admin#delete_task'
+  post 'admin/edit_task' => 'admin#edit_task'
   
   get 'admin/edit' => 'admin#user_edit'
   post 'admin/update' => 'admin#user_update'

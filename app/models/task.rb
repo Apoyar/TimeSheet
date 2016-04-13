@@ -10,4 +10,5 @@ class Task < ActiveRecord::Base
     validates :hours, presence: true
     validates :date, presence: true
     #utility
+ 
 end

@@ -1,3 +1,4 @@
+require 'csv'
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -36,6 +37,7 @@ class ApplicationController < ActionController::Base
       end
       return @temp
     end
+    
     def total_hours(tasks)
       if tasks
         @total=0
@@ -43,6 +45,16 @@ class ApplicationController < ActionController::Base
           @total+=task.hours
         end
         return @total
+      end
+    end
+    
+    def tasks_to_csv(tasks)
+      CSV.generate do |csv|
+        csv << ['Total Hours:', total_hours(tasks)]
+        csv << ['User', 'Client', 'Project', 'Activity' 'Date', 'Hours', 'Notes']
+        tasks.each do |task|
+          csv << [task.user.handle, task.client.name, task.project.name, task.activity.name, task.date, task.hours, task.notes]
+        end
       end
     end
 end

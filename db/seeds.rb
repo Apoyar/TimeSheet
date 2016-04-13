@@ -29,17 +29,17 @@ User.new(
     user.save
 end
 u=User.all.count
-5.times do
+4.times do
     client=Client.new(
         name: Faker::Company.name
     )
     client.save
-    [*1..5].sample.times do
+    [*1..4].sample.times do
         project=client.projects.new(
             name: Faker::Hacker.noun
         )
         project.save
-        [*1..5].sample.times do
+        [*1..4].sample.times do
             activity=project.activities.new(
                 name: Faker::Hacker.adjective,
                 client_id: client.id
@@ -58,7 +58,7 @@ u=User.all.count
     end
 end
 Assignment.all.each do |ass|
-    [*1..5].sample.times do
+    [*1..3].sample.times do
         task=ass.tasks.new(
             date: Date.today-[*0..5].sample,
             hours: 0.5*[*1..100].sample,

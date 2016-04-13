@@ -15,8 +15,20 @@ class AdminController < ApplicationController
             end
         end
         @hours=total_hours(@tasks)
+        respond_to do |format|
+            format.html
+            format.csv {send_data tasks_to_csv(@tasks)}
+        end
     end
-    
+    #delete_task
+    def delete_task
+        Task.find(delete_params).delete
+        redirect_to '/admin/list_tasks'
+    end
+    def edit_task
+        Task.find(edit_params[:id]).update(edit_params)
+        redirect_to '/admin/list_tasks'
+    end
     #edit user details
     def user_edit
         @user=current_user
@@ -44,6 +56,14 @@ class AdminController < ApplicationController
     
     private
     # Never trust parameters from the scary internet, only allow the white list through.
+        def edit_params
+            params.require(:task).permit(:id, :hours, :date, :notes)
+        end
+        
+        def delete_params
+            params.require(:task_id)
+        end
+    
         def search_params
             params.require(:search).permit(:client, :project, :activity, :user)
         end
