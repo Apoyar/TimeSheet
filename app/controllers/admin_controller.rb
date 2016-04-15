@@ -139,6 +139,11 @@ class AdminController < ApplicationController
         end
     end
     
+    #client management
+    def list_users
+        @users=User.all.order(:handle)
+    end
+    
     #controller for creating clients/projects/activities
     def create_client
         begin
@@ -172,9 +177,74 @@ class AdminController < ApplicationController
             redirect_to :back
         end
     end
+    def create_user
+        begin
+            User.create!(create_user_params)
+            flash[:notice]='User '+create_user_params[:handle]+' was successfully created'
+            redirect_to :back
+        rescue
+            flash[:error]='Failed to create user, make sure your handle is unique and not shorter than 3 characters'
+            redirect_to :back
+        end
+    end
     
+    def delete_user
+        begin
+            user=User.find(delete_user_params).handle
+            User.find(delete_user_params).destroy
+            flash[:notice]='User '+user+' has been destroyed'
+            redirect_to :back
+        rescue
+            flash[:error]='Something went horribly wrong'
+            redirect_to :back
+        end
+    end
+    
+    def change_password_mass
+        begin
+            user=User.find(change_pass_params[:id])
+            user.password=change_pass_params[:pass]
+            user.save
+            flash[:notice]='Password has been changed'
+            redirect_to :back
+        rescue
+            flash[:error]='Something went horribly wrong'
+            redirect_to :back
+        end
+    end
+    
+    def change_user
+        begin
+            para=change_user_params
+            user=User.find(para[:id])
+            if para[:is_admin].blank?
+                para[:is_admin]=false
+            end
+            user.update!(para)
+            flash[:notice]='User '+user.handle+' has been updated'
+            redirect_to :back
+        rescue
+            flash[:error]='Something went horribly wrong'
+            redirect_to :back
+        end
+    end
     private
     # Never trust parameters from the scary internet, only allow the white list through.
+        def change_user_params
+            params.require(:user).permit(:handle, :email, :first_name, :last_name, :email, :tel, :whatsapp, :id, :is_admin)
+        end
+        
+        def change_pass_params
+            params.require(:pass).permit(:pass, :id)
+        end
+        
+        def delete_user_params
+            params.require(:user_id)
+        end
+        
+        def create_user_params
+            params.require(:user).permit(:handle, :password, :is_admin, )
+        end
         def create_params
             params.require(:create).permit(:client, :project, :activity, :parent_id, :user_id)
         end

@@ -22,7 +22,7 @@
         <ul class="nav navbar-nav">
           <li <%=action_name=='list_tasks' ? "class=active":''%>><a href="/admin/list_tasks"><span class="glyphicon glyphicon glyphicon-list-alt"></span> Tasks</a></li>
           <li <%=action_name=='list_clients' ? "class=active":''%>><a href="/admin/list_clients"><span class="glyphicon glyphicon-briefcase"></span> Clients/projects</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-globe"></span> Users</a></li>
+          <li <%=action_name=='list_users' ? "class=active":''%>><a href="/admin/list_users"><span class="glyphicon glyphicon-globe"></span> Users</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li <%=action_name=='user_edit' ? "class=active":''%>><a href="/admin/edit"><span class="glyphicon glyphicon-user"></span> <%=current_user.handle%></a></li>

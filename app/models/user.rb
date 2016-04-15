@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
     
     #relationships
-    has_many :tasks, through: :assignments, dependent: :destroy
     has_many :assignments, dependent: :destroy
+    has_many :tasks, through: :assignments, dependent: :destroy
     has_many :activities, through: :assignments
+    has_many :clients, through: :assignments
+    has_many :projects, through: :assignments
 
     #variables for storing temp data
     attr_accessor :password, :password_verify
@@ -47,4 +49,5 @@ class User < ActiveRecord::Base
     end
     
     validates :handle, length: { minimum: 3}
+    validates :handle, uniqueness: true
 end

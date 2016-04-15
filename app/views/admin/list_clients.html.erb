@@ -87,7 +87,7 @@
         
         
         
-        
+        <hr>
         <p class='text-center'>
           
           
@@ -170,7 +170,7 @@
               
               
               
-              
+              <hr>
               <p class='text-center'>
                 
                 <!--MODAL BUTTON-->
@@ -247,7 +247,7 @@
                     
                     
                     
-                    
+                    <hr>
                     <p class='text-center'><button class='btn btn-success btn-round' style='background-color: #FFF;' data-toggle="modal" data-target="#ass_new<%=activity.id%>">Add new assignment (<%=activity.assignments.count%>)</button></p><br>
                     
                     <!--MODAL-->
@@ -270,14 +270,18 @@
                               <label for="user">User:</label>
                               <select name='create[user_id]' class="form-control" id="user">
                                 <%@users.each do |user|%>
-                                    <option value='<%=user.id%>'><%=user.handle+'   |   '+user.email%></option>
+                                    <%if activity.users.include? user%>
+                                    <%elsif user.is_admin?%>
+                                    <%else%>
+                                      <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                                    <%end%>
                                 <%end%>
                               </select>
                             </div>
                               
                           </div>
                           <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Add</button>
+                            <button type="submit" class="btn btn-success">Assign</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <br><br>
                           </div>

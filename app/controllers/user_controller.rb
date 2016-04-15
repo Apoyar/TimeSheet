@@ -3,29 +3,21 @@ class UserController < ApplicationController
     
     #landing page for users
     def new_task
-        @clients=[];
-        current_user.activities.each do |act|
-            if !@clients.include? act.client
-                @clients << act.client
-            end
-        end
+        @clients=current_user.clients
     end
     
     #ajax for the main user page
     def get_projects
         @params=task_params
-        @temp=current_user.activities.where(@params)
-        @counter=0
+        @client=current_user.clients.find(@params[:client_id])
+        counter=0
         @res=[]
-        @temp.each do |t|
-            @temp2={
-                project_id: t.project.id, 
-                name: t.project.name
+        @client.projects.each do |c|
+            @res[counter]={
+                project_id: c.id, 
+                name: c.name
             }
-            if !@res.include? @temp2
-                @res[@counter]=@temp2
-            end
-            @counter+=1
+            counter+=1
         end
         respond_to do |format|
             format.json {render json: @res}
@@ -35,18 +27,15 @@ class UserController < ApplicationController
     #ajax for the main user page
     def get_activities
         @params=task_params
-        @temp=current_user.activities.where(@params)
-        @counter=0
+        @project=current_user.projects.find(@params[:project_id])
+        counter=0
         @res=[]
-        @temp.each do |t|
-            @temp2={
-                activity_id: t.id, 
-                name: t.name
+        @project.activities.each do |p|
+            @res[counter]={
+                activity_id: p.id, 
+                name: p.name
             }
-            if !@res.include? @temp2
-                @res[@counter]=@temp2
-            end
-            @counter+=1
+            counter+=1
         end
         respond_to do |format|
             format.json {render json: @res}
