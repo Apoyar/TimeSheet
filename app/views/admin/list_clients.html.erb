@@ -1,0 +1,72 @@
+<div class='container-fluid'>
+<br>
+<p class='text-center'>
+    <button class='btn btn-success btn-round' style='background-color: #F5F5F5'>Add new client (<%=@clients.count%>)</button>
+</p><br>
+<%@clients.each do |client|%>
+  <div class='row'>
+    <div class='col-xs-12'>
+      <div class='well'>
+        <h2 class='text-center bg-primary'><b>Client:</b> <%=client.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger'>Delete</button></h2>
+        <p class='text-center'><button class='btn btn-success btn-round' style='background-color: #FBFBFB'>Add new project (<%=client.projects.count%>)</button></p><br>
+        
+        
+        <%client.projects.each do |project|%>
+          <div class='col-xs-12'>
+            <div class='well'  style='background-color: #FBFBFB;'>
+              <h3 class='text-center'><b>Project:</b> <%=project.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger'>Delete</button></h3>
+              <p class='text-center'><button class='btn btn-success btn-round' style='background-color: #F5F5F5'>Add new activity (<%=project.activities.count%>)</button></p><br>
+              
+              <%project.activities.each do |activity|%>
+                <div class='col-xs-12'>
+                  <div class='well'>
+                    <h4 class='text-center bg-info'><b>Activity:</b> <%=activity.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger'>Delete</button></h4>
+                    <p class='text-center'><button class='btn btn-success btn-round' style='background-color: #FFF;'>Add new assignment (<%=activity.assignments.count%>)</button></p><br>
+                    <%counter=0%>
+                    <%activity.assignments.each do |ass|%>
+                    <%= activity.assignments.first==ass ? '<div>'.html_safe : ''%>
+                      <div class='col-xs-6'>
+                        <div class='well' style='background-color: #FFF;'>
+                          <h5 class='text-center bg-info'><b>User:</b> <%=ass.user.handle%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-warning'>Remove assignment</button></h5>
+                          
+                          <%result=0%>
+                          <%ass.tasks.each {|t| result=result+t.hours}%>
+                          <table class='table'>
+                            <tr>
+                              <td>
+                                <b>Total hours:</b> <%=result%>
+                              </td>
+                              <td>
+                                <b>Tasks submitted:</b> <%=ass.tasks.count%>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Email:</b> <%= ass.user.email%>
+                              </td>
+                              <td>
+                                <b>Tel:</b> <%=ass.user.tel%>
+                              </td>
+                            </tr>
+                          </table>
+                          
+                        </div>
+                      </div>
+                    <%= counter%2 == 0 ? "</div><div class=row>".html_safe : ""%>
+                    <%= activity.assignments.last==ass ? '</div>'.html_safe : ''%>
+                    <%counter=counter+1%>
+                    <%end%>
+                    
+                  </div>
+                </div>
+              <%end%>
+              
+            </div>
+          </div>
+        <%end%>
+        
+      </div>
+    </div>
+  </div>
+<%end%>
+</div>

@@ -1,10 +1,10 @@
 class Project < ActiveRecord::Base
     #relationships
     belongs_to :client
-    has_many :activities
+    has_many :activities, dependent: :destroy
     
-    has_many :tasks, through: :activities
-    has_many :assignments, through: :activities
+    has_many :tasks, through: :activities, dependent: :destroy
+    has_many :assignments, through: :activities, dependent: :destroy
     has_many :users, through: :activities
     
     

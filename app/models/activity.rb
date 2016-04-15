@@ -4,10 +4,10 @@ class Activity < ActiveRecord::Base
     
     has_one :client, through: :project
     
-    has_many :assignments
+    has_many :assignments, dependent: :destroy
     has_many :users, through: :assignments
     
-    has_many :tasks, through: :assignments
+    has_many :tasks, through: :assignments, dependent: :destroy
     #validations
     validates :project_id, presence: true
     validates :client_id, presence: true

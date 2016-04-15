@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
     
     #relationships
-    has_many :tasks, through: :assignments
-    has_many :assignments
+    has_many :tasks, through: :assignments, dependent: :destroy
+    has_many :assignments, dependent: :destroy
     has_many :activities, through: :assignments
 
     #variables for storing temp data

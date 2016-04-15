@@ -1,25 +1,33 @@
 class AdminController < ApplicationController
     before_action :check_admin
-    
+    #main list tasks action
     def list_tasks
         begin
             @params=search_params
             if search_params
                 if !search_params[:user].empty?
                     query = iterate_add_tasks(User.where('handle LIKE ?', "%#{search_params[:user]}%"))
-                    @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    if query
+                        @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    end
                 end
                 if !search_params[:client].empty?
                     query = iterate_add_tasks(Client.where('name LIKE ?', "%#{search_params[:client]}%"))
-                    @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    if query
+                        @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    end
                 end
                 if !search_params[:project].empty?
                     query = iterate_add_tasks(Project.where('name LIKE ?', "%#{search_params[:project]}%"))
-                    @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    if query
+                        @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    end
                 end
                 if !search_params[:activity].empty?
                     query = iterate_add_tasks(Activity.where('name LIKE ?', "%#{search_params[:activity]}%"))
-                    @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    if query
+                        @tasks.nil? ? @tasks=query : @tasks=@tasks&query
+                    end
                 end
                 if @tasks
                     @tasks=@tasks.uniq
@@ -53,11 +61,11 @@ class AdminController < ApplicationController
     #delete_task
     def delete_task
         Task.find(delete_params).delete
-        redirect_to '/admin/list_tasks'
+        redirect_to :back
     end
     def edit_task
         Task.find(edit_params[:id]).update(edit_params)
-        redirect_to '/admin/list_tasks'
+        redirect_to :back
     end
     
     #edit user details
@@ -100,7 +108,8 @@ class AdminController < ApplicationController
     end
     
     #user management
-    def list_users
+    def list_clients
+        @clients=Client.all
     end
     
     private

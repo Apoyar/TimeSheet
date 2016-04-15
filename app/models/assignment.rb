@@ -3,7 +3,7 @@ class Assignment < ActiveRecord::Base
     belongs_to :activity
     belongs_to :user
     
-    has_many :tasks
+    has_many :tasks, dependent: :destroy
     has_one :project, through: :activity
     has_one :client, through: :activity
     

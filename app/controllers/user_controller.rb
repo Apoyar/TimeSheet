@@ -55,15 +55,7 @@ class UserController < ApplicationController
     
     #list all tasks
     def history
-        @ass=Assignment.where(user_id: current_user.id)
-        
-        @ass.each do |ass|
-            if !@tasks
-                @tasks=ass.tasks
-            else
-                @tasks=@tasks+ass.tasks
-            end
-        end
+        @tasks=current_user.tasks
     end
     
     #create a new task
