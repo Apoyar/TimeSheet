@@ -3,7 +3,7 @@ class UserController < ApplicationController
     
     #landing page for users
     def new_task
-        @clients=current_user.clients
+        @clients=current_user.clients.uniq
     end
     
     #ajax for the main user page
@@ -22,7 +22,7 @@ class UserController < ApplicationController
             end
         end
         respond_to do |format|
-            format.json {render json: @res}
+            format.json {render json: @res.uniq}
         end
     end
     
@@ -42,7 +42,7 @@ class UserController < ApplicationController
             end
         end
         respond_to do |format|
-            format.json {render json: @res}
+            format.json {render json: @res.uniq}
         end
     end
     
