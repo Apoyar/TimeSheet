@@ -22,7 +22,15 @@ class AdminController < ApplicationController
                     @tasks.nil? ? @tasks=query : @tasks=@tasks&query
                 end
                 flash[:notice]=nil
-                if @tasks.nil?
+                
+                @params.each do |p|
+                    all=true
+                    if !p.empty?
+                        all=false
+                    end
+                end
+                
+                if all
                     @tasks=Task.all
                     flash[:notice]='Listing all tasks'
                 end
