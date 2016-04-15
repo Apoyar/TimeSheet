@@ -43,6 +43,8 @@ gem 'jquery-turbolinks'
 gem 'faker'
 # Use pg as the database for Active Record
 gem 'pg'
+#pretty loading bars
+gem 'nprogress-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

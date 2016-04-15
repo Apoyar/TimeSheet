@@ -79,6 +79,7 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    nprogress-rails (0.1.6.7)
     pg (0.18.4)
     rack (1.6.4)
     rack-test (0.6.3)
@@ -160,6 +161,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
+  nprogress-rails
   pg
   rails (= 4.2.5)
   rails_12factor

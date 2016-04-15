@@ -27,7 +27,10 @@
 //= require custom.js
 //= require bootstrap-table.min.js
 
+
 //= require turbolinks
 
+//= require nprogress
+//= require nprogress-turbolinks
 
 
