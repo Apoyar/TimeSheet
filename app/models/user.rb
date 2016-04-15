@@ -19,7 +19,11 @@ class User < ActiveRecord::Base
             #verifies password
             if self.password_check
                 self.encrypt_password
+            else
+                raise "error"
             end
+        else
+            raise "error"
         end
     end
     
@@ -41,4 +45,6 @@ class User < ActiveRecord::Base
     def password_check
         return self.encrypted_password==BCrypt::Engine.hash_secret(self.password_verify, self.salt)
     end
+    
+    validates :handle, length: { minimum: 3}
 end

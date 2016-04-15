@@ -11,7 +11,10 @@ class SessionController < ApplicationController
         @user=User.find_by_handle(reference_params[:handle])
         if @user && @user.encrypted_password==BCrypt::Engine.hash_secret(reference_params[:password], @user.salt)
             session[:user_id]=@user.id
+        else
+            flash[:error]='Incorect username or password'
         end
+        
         redirect_to root_path
     end
     

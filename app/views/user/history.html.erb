@@ -1,8 +1,16 @@
-<div class='container-fluid'>
-<table class="table">
+<div class='container-fluid' style='background-color: #fdfdfd;'>
+<table class="table" data-toggle="table">
+<thead>
 <tr>
-    <th>Client</th> <th>Project</th> <th>Activity</th> <th>Date</th> <th>Hours</th> <th>Notes</th>
+    <th data-field="Client" data-sortable="true">Client</th> 
+    <th data-field="Project" data-sortable="true">Project</th> 
+    <th data-field="Activity" data-sortable="true">Activity</th> 
+    <th data-field="Date" data-sortable="true">Date</th> 
+    <th data-field="Hours" data-sortable="true">Hours</th> 
+    <th data-field="Notes" data-sortable="false">Notes</th>
 </tr>
+</thead>
+<tbody>
 <%@tasks.each do |task|%>
 <tr>
     <td><%=task.assignment.activity.client.name%></td>
@@ -12,7 +20,7 @@
     <td><%=task.hours%></td>
     <td>
         <!-- Button trigger modal -->
-        <button class="btn btn-default" data-toggle="modal" data-target="#notes<%=task.id%>"><span class='glyphicon glyphicon-file'></span></button>
+        <button class="btn btn-default btn-block" data-toggle="modal" data-target="#notes<%=task.id%>"><span class='glyphicon glyphicon-file'></span></button>
         <!-- Modal -->
         <div class="modal fade" id="notes<%=task.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -26,13 +34,15 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <br><br>
               </div>
+              
             </div>
           </div>
         </div>
     </td>
 </tr>
 <%end%>
+</tbody>
 </table>
-<br>
 </div>

@@ -25,6 +25,7 @@
 //= require gsdk-bootstrapswitch.js
 //= require get-shit-done.js
 //= require custom.js
+//= require bootstrap-table.min.js
 
 //= require turbolinks
 

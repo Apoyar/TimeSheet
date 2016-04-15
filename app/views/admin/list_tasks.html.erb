@@ -1,75 +1,93 @@
-<div class='container-fluid'>
-
-<table class="table">
-
+<div class='container-fluid' style='background-color: #fdfdfd;'>
+<%if flash[:notice]%>
+  <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <p><%=flash[:notice]%></p>
+  </div>
+<%end%>
+<form action='' method='get' id='list_task_form'>
+<table class="table" data-toggle="table">
+<thead>
 <tr>
-    <form action='' method='get' id='list_task_form'>
         <th>
             <label for="sU" class="sr-only">User:</label>
-            <input name='search[user]' type="text" id="sU" class="form-control" placeholder='Filter by user...'>
+            <input name='search[user]' type="text" id="sU" class="form-control" placeholder='Filter by user...' value='<%=@params ? @params[:user] : ''%>'>
         </th> 
             
         <th>
             <label for="sC" class="sr-only">Client:</label>
-            <input name='search[client]' type="text" id="sC" class="form-control" placeholder='Filter by client...'>
+            <input name='search[client]' type="text" id="sC" class="form-control" placeholder='Filter by client...' value='<%=@params ? @params[:client] : ''%>'>
         </th> 
         
         <th>
             <label for="sP" class="sr-only">Project:</label>
-            <input name='search[project]' type="text" id="sP" class="form-control" placeholder='Filter by project...'>
+            <input name='search[project]' type="text" id="sP" class="form-control" placeholder='Filter by project...' value='<%=@params ? @params[:project] : ''%>'>
         </th> 
         
         <th>
             <label for="sA" class="sr-only">Activity:</label>
-            <input name='search[activity]' type="text" id="sA" class="form-control" placeholder='Filter by activity...'>
+            <input name='search[activity]' type="text" id="sA" class="form-control" placeholder='Filter by activity...' value='<%=@params ? @params[:activity] : ''%>'>
         </th> 
         
         <th>
-            <button type='submit' class="btn btn-success"><span class='glyphicon glyphicon-search'></span></button>
+            <button type='submit' class="btn btn-success btn-block"><span class='glyphicon glyphicon-search'></span></button>
+            <%='</form>'.html_safe%>
         </th> 
         
         <th>
-            TOTAL HOURS<br>
-            <%=@hours%>
+            <%if @hours%>
+              <p class='apoyar'>Total: <%=@hours%></p>
+            <%end%>
         </th> 
             
         <th>
-            <a href='<%=request.original_url.sub! '/admin/list_tasks', '/admin/list_tasks.csv'%> ' class="btn btn-success"><span class='glyphicon glyphicon-file'></span>CSV</button>
+            <a href='<%=request.original_url.sub! '/admin/list_tasks', '/admin/list_tasks.csv'%> ' class="btn btn-success btn-block"><span class='glyphicon glyphicon-file'></span> CSV</a>
         </th>
-    </form>
-</tr>
-
-<tr>
         <th>
+        
+        </th>
+        <th>
+          
+        </th>
+</tr>
+<tr>
+        <th data-field="User" data-sortable="true">
             User
         </th> 
             
-        <th>
+        <th data-field="Client" data-sortable="true">
             Client
         </th> 
         
-        <th>
+        <th data-field="Project" data-sortable="true">
             Project
         </th> 
         
-        <th>
+        <th data-field="Activity" data-sortable="true">
             Activity
         </th> 
         
-        <th>
+        <th data-field="Date" data-sortable="true">
             Date
         </th> 
         
-        <th>
+        <th data-field="Hours" data-sortable="true">
             Hours
         </th> 
             
-        <th>
+        <th data-field="Notes" data-sortable="false">
             Notes
         </th>
-        
+        <th data-field="Edit" data-sortable="false">
+          
+        </th>
+        <th data-field="Delete" data-sortable="false">
+          
+        </th>
     
 </tr>
+</thead>
+<tbody>
 <%if @tasks%>
 <%@tasks.each do |task|%>
 <tr>
@@ -81,7 +99,7 @@
     <td><%=task.hours%></td>
     <td>
         <!-- Button trigger modal -->
-        <button class="btn btn-default" data-toggle="modal" data-target="#notes<%=task.id%>"><span class='glyphicon glyphicon-file'></span></button>
+        <button class="btn btn-default  btn-block" data-toggle="modal" data-target="#notes<%=task.id%>"><span class='glyphicon glyphicon-file'></span></button>
         <!-- Modal -->
         <div class="modal fade" id="notes<%=task.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -95,6 +113,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <br><br>
               </div>
             </div>
           </div>
@@ -102,7 +121,7 @@
     </td>
     <td>
         <!-- Button trigger modal -->
-        <button class="btn btn-warning" data-toggle="modal" data-target="#edit<%=task.id%>">Edit</button>
+        <button class="btn btn-warning  btn-block" data-toggle="modal" data-target="#edit<%=task.id%>">Edit</button>
         <!-- Modal -->
         <div class="modal fade" id="edit<%=task.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -148,7 +167,7 @@
                 
                 <button type='submit' class="btn btn-primary">Save</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                
+                <br><br>
               </div>
               </form>
             </div>
@@ -156,7 +175,7 @@
         </div>
     </td>
     <td>
-        <button class="btn btn-danger btn-fill" data-toggle="modal" data-target="#delete<%=task.id%>">Delete</button>
+        <button class="btn btn-danger btn-fill  btn-block" data-toggle="modal" data-target="#delete<%=task.id%>">Delete</button>
         <!-- Modal -->
         <div class="modal fade" id="delete<%=task.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -174,6 +193,7 @@
                     <input name="task_id" value="<%=task.id%>" type="hidden">
                     <button type='submit' class="btn btn-danger">Yes</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <br><br>
                 </form>
                 
               </div>
@@ -184,6 +204,6 @@
 </tr>
 <%end%>
 <%end%>
+</tbody>
 </table>
-<br>
 </div>

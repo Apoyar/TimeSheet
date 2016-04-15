@@ -28,23 +28,24 @@ class ApplicationController < ActionController::Base
     end
     
     def iterate_add_tasks(obj)
+      temp=nil
       obj.each do |o|
-          if @temp && defined? o.tasks
-            @temp+=o.tasks
-          elsif defined? o.tasks
-            @temp=o.tasks
+          if !temp.nil? && defined? o.tasks
+            temp=temp+o.tasks
+          elsif defined? o.tasks && temp.nil?
+            temp=o.tasks
           end
       end
-      return @temp
+      return temp
     end
     
     def total_hours(tasks)
       if tasks
-        @total=0
+        total=0
         tasks.each do |task|
-          @total+=task.hours
+          total+=task.hours
         end
-        return @total
+        return total
       end
     end
     

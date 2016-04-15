@@ -69,6 +69,10 @@ class UserController < ApplicationController
     #create a new task
     def create_task
         @p=task_params
+        if !@p[:activity_id] || !@p[:project_id]
+            flash[:error]='Please make sure to fill out the form correctly'
+            return redirect_to action:'new_task'
+        end
         @activity=Activity.find(@p[:activity_id])
         @c=current_user
         if !@activity.users.include? @c
@@ -80,6 +84,7 @@ class UserController < ApplicationController
             notes: @p[:notes],
             date: @p[:date]
         )
+        flash[:notice]='Task has been submitted'
         redirect_to '/user/new_entry'
     end
     
@@ -88,29 +93,42 @@ class UserController < ApplicationController
         @user=current_user
     end
     
-    #update user
     def user_update
-        @user=current_user
-        @user.update(user_params)
-        redirect_to '/user/edit'
+        begin
+            @user=current_user
+            @user.update!(user_params)
+            flash[:notice]='Your details have been updated'
+            redirect_to '/user/edit'
+        rescue
+            flash[:error]='Please make sure to fill out the form correctly'
+            redirect_to '/user/edit'
+        end
     end
     
     #change password
     def change_password
-        @params=password_params
-        @user=current_user
-        if @params[:repeat]==@params[:new]
-            @user.password=@params[:new]
-            @user.password_verify=@params[:old]
-            @user.change_password
-            @user.save
+        begin
+            @params=password_params
+            @user=current_user
+            if @params[:repeat]==@params[:new]
+                @user.password=@params[:new]
+                @user.password_verify=@params[:old]
+                @user.change_password
+                @user.save!
+                flash[:notice]='Password changed successfully'
+            else
+                flash[:error]='You didnt correctly retype your new password'
+            end
+            redirect_to '/user/edit'
+        rescue
+            flash[:error]='Your old password wasn\'t correct'
+            redirect_to '/user/edit'
         end
-        redirect_to '/user/edit'
     end
     private
      # Never trust parameters from the scary internet, only allow the white list through.
         def user_params
-            params.require(:user).permit(:handle, :first_name, :last_name, :tel, :whatsapp, :email)
+            params.require(:user).permit(:first_name, :last_name, :tel, :whatsapp, :email)
         end
         
         def password_params
