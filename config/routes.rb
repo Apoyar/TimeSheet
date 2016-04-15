@@ -31,7 +31,8 @@ Rails.application.routes.draw do
   post 'admin/change_password' => 'admin#change_password'
   
   get 'admin/list_clients' => 'admin#list_clients'
-  
+  post 'admin/create_client' => 'admin#create_client'
+  post 'admin/delete_client' => 'admin#delete_client'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -60,7 +60,7 @@ class AdminController < ApplicationController
     
     #delete_task
     def delete_task
-        Task.find(delete_params).delete
+        Task.find(delete_params).destroy
         redirect_to :back
     end
     def edit_task
@@ -107,13 +107,82 @@ class AdminController < ApplicationController
         end
     end
     
-    #user management
+    #client management
     def list_clients
-        @clients=Client.all
+        @clients=Client.all.order(:name)
+        @users=User.all.order(:handle)
+    end
+    
+    #controller for deleting clients/projects/activities
+    def delete_client
+        begin
+            if c_delete_params[:client]
+                name=Client.find(c_delete_params[:client]).name
+                Client.find(c_delete_params[:client]).destroy
+                flash[:notice]='Deleted client: '+name
+            elsif c_delete_params[:project]
+                name=Project.find(c_delete_params[:project]).name
+                Project.find(c_delete_params[:project]).destroy
+                flash[:notice]='Deleted project: '+name
+            elsif c_delete_params[:activity]
+                name=Activity.find(c_delete_params[:activity]).name
+                Activity.find(c_delete_params[:activity]).destroy
+                flash[:notice]='Deleted activity: '+name
+            elsif c_delete_params[:assignment]
+                Assignment.find(c_delete_params[:assignment]).destroy
+                flash[:notice]='Deleted assignment'
+            end
+            redirect_to :back
+        rescue
+            flash[:error]='There was an error'
+            redirect_to :back
+        end
+    end
+    
+    #controller for creating clients/projects/activities
+    def create_client
+        begin
+            if create_params[:client]
+                
+                Client.create(name: create_params[:client])
+                flash[:notice]='Client: '+create_params[:client]+', created! '
+                
+            elsif create_params[:project]
+            
+                Client.find(create_params[:parent_id]).projects.create(name: create_params[:project])
+                flash[:notice]='Project: '+create_params[:project]+', created! '
+                
+            elsif create_params[:activity]
+            
+                Project.find(create_params[:parent_id]).activities.create(name: create_params[:activity])
+                flash[:notice]='Activity: '+create_params[:activity]+', created! '
+                
+            elsif create_params[:user_id]
+                begin
+                    Assignment.create!(user_id: create_params[:user_id], activity_id: create_params[:parent_id])
+                    flash[:notice]='Assigned user '+User.find(create_params[:user_id]).handle+' to activity '+Activity.find(create_params[:parent_id]).name
+                rescue
+                    flash[:error]='You can only assign a user once to to a particular activity'
+                end
+            
+            end
+            redirect_to :back
+        rescue
+            flash[:error]='There was an error'
+            redirect_to :back
+        end
     end
     
     private
     # Never trust parameters from the scary internet, only allow the white list through.
+        def create_params
+            params.require(:create).permit(:client, :project, :activity, :parent_id, :user_id)
+        end
+        
+        def c_delete_params
+            params.require(:delete).permit(:client, :project, :activity, :assignment)
+        end
+        
         def edit_params
             params.require(:task).permit(:id, :hours, :date, :notes)
         end

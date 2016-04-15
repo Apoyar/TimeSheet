@@ -10,6 +10,5 @@ class Activity < ActiveRecord::Base
     has_many :tasks, through: :assignments, dependent: :destroy
     #validations
     validates :project_id, presence: true
-    validates :client_id, presence: true
     validates_uniqueness_of :name, :scope => [:project_id]
 end
