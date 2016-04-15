@@ -13,11 +13,13 @@ class UserController < ApplicationController
         counter=0
         @res=[]
         @client.projects.each do |c|
-            @res[counter]={
-                project_id: c.id, 
-                name: c.name
-            }
-            counter+=1
+            if c.users.include? current_user
+                @res[counter]={
+                    project_id: c.id, 
+                    name: c.name
+                }
+                counter+=1
+            end
         end
         respond_to do |format|
             format.json {render json: @res}
@@ -31,11 +33,13 @@ class UserController < ApplicationController
         counter=0
         @res=[]
         @project.activities.each do |p|
-            @res[counter]={
-                activity_id: p.id, 
-                name: p.name
-            }
-            counter+=1
+            if p.users.include? current_user
+                @res[counter]={
+                    activity_id: p.id, 
+                    name: p.name
+                }
+                counter+=1
+            end
         end
         respond_to do |format|
             format.json {render json: @res}
