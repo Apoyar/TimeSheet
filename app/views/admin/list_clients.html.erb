@@ -298,7 +298,7 @@
                     <%counter=-1%>
                     <%activity.assignments.each do |ass|%>
                     <%= activity.assignments.first==ass ? '<div class=row>'.html_safe : ''%>
-                      <div class='col-xs-6'>
+                      <div class='col-xs-12 col-md-6'>
                         <div class='well' style='background-color: #FFF;'>
                           
                           
@@ -340,7 +340,12 @@
                           
                           <%result=0%>
                           <%ass.tasks.each {|t| result=result+t.hours}%>
-                          <table class='table'>
+                          <table class='table' data-toggle="table">
+                            <thead>
+                              <th></th>
+                              <th></th>
+                            </thead>
+                            <tbody>
                             <tr>
                               <td>
                                 <b>Total hours:</b> <%=result%>
@@ -357,6 +362,7 @@
                                 <b>Tel:</b> <%=ass.user.tel%>
                               </td>
                             </tr>
+                            </tbody>
                           </table>
                           
                         </div>
