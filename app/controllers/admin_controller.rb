@@ -21,11 +21,15 @@ class AdminController < ApplicationController
                     query = iterate_add_tasks(Activity.where('name LIKE ?', "%#{search_params[:activity]}%"))
                     @tasks.nil? ? @tasks=query : @tasks=@tasks&query
                 end
+                if @tasks
+                    @tasks=@tasks.uniq
+                end
+                
                 flash[:notice]=nil
                 
+                all=true
                 @params.each do |p|
-                    all=true
-                    if !p.empty?
+                    if !p[1].empty?
                         all=false
                     end
                 end
@@ -34,7 +38,6 @@ class AdminController < ApplicationController
                     @tasks=Task.all
                     flash[:notice]='Listing all tasks'
                 end
-                @tasks=@tasks.uniq
             end
         rescue
             @tasks=Task.order(:date).limit(20).reverse
