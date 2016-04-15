@@ -2,7 +2,7 @@ class AdminController < ApplicationController
     before_action :check_admin
     
     def list_tasks
-        #begin
+        begin
             @params=search_params
             if search_params
                 if !search_params[:user].empty?
