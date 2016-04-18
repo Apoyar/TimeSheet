@@ -61,7 +61,8 @@ class UserController < ApplicationController
         @activity=Activity.find(@p[:activity_id])
         @c=current_user
         if !@activity.users.include? @c
-            @activity.users << @c
+            flash[:error]='Please make sure to fill out the form correctly'
+            return redirect_to action:'new_task'
         end
         @ass=@activity.assignments.find_by_user_id(@c.id)
         @ass.tasks.create(

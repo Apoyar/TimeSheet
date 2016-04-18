@@ -15,7 +15,7 @@ User.new(
     whatsapp: '+32490436981',
     is_admin: false
 ).save
-200.times do
+5.times do
     user=User.new(
         handle: Faker::Internet.user_name,
         password: Faker::Internet.password,
@@ -29,23 +29,23 @@ User.new(
     user.save
 end
 u=User.all.count
-50.times do
+2.times do
     client=Client.new(
         name: Faker::Company.name
     )
     client.save
-    [*1..10].sample.times do
+    [*1..5].sample.times do
         project=client.projects.new(
             name: Faker::Hacker.noun
         )
         project.save
-        [*1..10].sample.times do
+        [*1..5].sample.times do
             activity=project.activities.new(
                 name: Faker::Hacker.adjective,
                 client_id: client.id
             )
             activity.save
-            [*1..10].sample.times do
+            [*1..5].sample.times do
                 user=User.find([*1..u].sample)
                 if !activity.users.include? user
                     Assignment.new(
@@ -58,7 +58,7 @@ u=User.all.count
     end
 end
 Assignment.all.each do |ass|
-    [*1..100].sample.times do
+    [*1..50].sample.times do
         task=ass.tasks.new(
             date: Date.today-[*0..5].sample,
             hours: 0.5*[*1..100].sample,
