@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'admin/list_clients' => 'admin#list_clients'
   post 'admin/create_client' => 'admin#create_client'
   post 'admin/delete_client' => 'admin#delete_client'
+  post 'admin/edit_client' => 'admin#edit_client'
   
   get 'admin/list_users' => 'admin#list_users'
   post 'admin/create_user' => 'admin#create_user'

@@ -112,7 +112,8 @@ class AdminController < ApplicationController
         @clients=Client.all.order(:name)
         @users=User.all.order(:handle)
     end
-    
+    def edit_client
+    end
     #controller for deleting clients/projects/activities
     def delete_client
         begin
@@ -169,7 +170,15 @@ class AdminController < ApplicationController
                 rescue
                     flash[:error]='You can only assign a user once to to a particular activity'
                 end
-            
+            elsif create_params[:project_wide]
+                begin
+                    Project.find(create_params[:parent_id]).activities.each do |activity|
+                        Assignment.create!(user_id: create_params[:project_wide], activity_id: activity.id)
+                        flash[:notice]='Assigned user '+User.find(create_params[:project_wide]).handle+' to all activities in project:'+Project.find(create_params[:parent_id]).name
+                    end
+                rescue
+                    flash[:error]='You can only assign a user once to to a particular activity'
+                end
             end
             redirect_to :back
         rescue
@@ -246,7 +255,7 @@ class AdminController < ApplicationController
             params.require(:user).permit(:handle, :password, :is_admin, )
         end
         def create_params
-            params.require(:create).permit(:client, :project, :activity, :parent_id, :user_id)
+            params.require(:create).permit(:project_wide, :client, :project, :activity, :parent_id, :user_id)
         end
         
         def c_delete_params

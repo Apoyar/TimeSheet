@@ -13,7 +13,7 @@
 <%end%>
 <br>
 <p class='text-center'>
-  
+    <!--ADD NEW CLIENT BUTTON AND MODAL-->
     <!--MODAL BUTTON-->
     <button class='btn btn-success btn-round' data-toggle="modal" data-target="#client_new">Add new client (<%=@clients.count%>)</button>
     <!--MODAL-->
@@ -50,11 +50,11 @@
 <%@clients.each do |client|%>
 
   <div class='row'>
-    <div class='col-xs-12'>
+    <div class='col-xs-12' id='client<%=client.id%>'>
       <div class='well' style='background-color: #F9F9F9'>
         
+        <!--DELETE CLIENT BUTTON AND MODAL-->
         <!--MODAL BUTTON-->
-        
         <h2 class='text-center bg-primary'><b>Client:</b> <%=client.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#client_del<%=client.id%>">Delete</button></h2>
         
         <!--MODAL-->
@@ -90,7 +90,7 @@
         <hr>
         <p class='text-center'>
           
-          
+          <!--ADD PROJECT BUTTON AND MODAL-->
           <!--MODAL BUTTON-->
           <button class='btn btn-success btn-round' data-toggle="modal" data-target="#project_new<%=client.id%>">Add new project (<%=client.projects.count%>)</button>
           <!--MODAL-->
@@ -129,9 +129,9 @@
         
         
         <%client.projects.each do |project|%>
-          <div class='col-xs-12'>
+          <div class='col-xs-12' id='project<%=project.id%>'>
             <div class='well'  style='background-color: #FbFbFb'>
-              
+              <!--DELETE PROJECT BUTTON AND MODAL-->
               <!--MODAL BUTTON-->
               <h3 class='text-center'><b>Project:</b> <%=project.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#project_del<%=project.id%>">Delete</button></h3>
               
@@ -173,8 +173,55 @@
               <hr>
               <p class='text-center'>
                 
+                
+                <!--ADD PROJECT-WIDE ASSIGNMENT BUTTON AND MODAL-->
+                <!--MODAL BUTTON-->
+                <button class='btn btn-success btn-round' data-toggle="modal" data-target="#assPW_new<%=project.id%>">Add project-wide assignment</button>
                 <!--MODAL BUTTON-->
                 <button class='btn btn-success btn-round' data-toggle="modal" data-target="#activity_new<%=project.id%>">Add new activity (<%=project.activities.count%>)</button>
+                
+                <form action='create_client' method='post'>
+                      
+                    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                    
+                    <input name="create[parent_id]" value="<%=project.id%>" type="hidden">
+                    
+                    <div class="modal fade" id="assPW_new<%=project.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Assign a user</h4>
+                          </div>
+                          <div class="modal-body">
+                            
+                            <div class="form-group">
+                              <label for="user">User:</label>
+                              <select name='create[project_wide]' class="form-control" id="user">
+                                <%@users.each do |user|%>
+                                    <%if project.users.include? user%>
+                                    <%elsif user.is_admin?%>
+                                    <%else%>
+                                      <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                                    <%end%>
+                                <%end%>
+                              </select>
+                            </div>
+                              
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Assign</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <br><br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                
+                
+                <!--ADD ACTIVITY BUTTON AND MODAL-->
+                
                 
                 <!--MODAL-->
                 <form action='create_client' method='post'>
@@ -212,8 +259,10 @@
               </p><br>
               
               <%project.activities.each do |activity|%>
-                <div class='col-xs-12'>
+                <div class='col-xs-12' id='activity<%=activity.id%>'>
                   <div class='well' style='background-color: #FDFDFD'>
+                    
+                    <!-- DELETE ACTIVITY BUTTON AND MODAL-->
                     <h4 class='text-center bg-info'><b>Activity:</b> <%=activity.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#activity_del<%=activity.id%>">Delete</button></h4>
                     
                     
@@ -248,6 +297,7 @@
                     
                     
                     <hr>
+                    <!-- ADD ASSIGNMENT BUTTON AND MODAL-->
                     <p class='text-center'><button class='btn btn-success btn-round' data-toggle="modal" data-target="#ass_new<%=activity.id%>">Add new assignment (<%=activity.assignments.count%>)</button></p><br>
                     
                     <!--MODAL-->
@@ -298,10 +348,10 @@
                     <%counter=-1%>
                     <%activity.assignments.each do |ass|%>
                     <%= activity.assignments.first==ass ? '<div class=row>'.html_safe : ''%>
-                      <div class='col-xs-12 col-md-6'>
+                      <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
                         <div class='well' style='background-color: #FFF;'>
                           
-                          
+                          <!-- DELETE ASSIGNMENT BUTTON AND MODAL-->
                           <!--MODAL BUTTON-->
                           <h5 class='text-center bg-info'><b>User:</b> <%=ass.user.handle%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-warning'  data-toggle="modal" data-target="#assignment_del<%=ass.id%>">Remove assignment</button></h5>
                           
