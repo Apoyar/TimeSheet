@@ -48,7 +48,7 @@ class UserController < ApplicationController
     
     #list all tasks
     def history
-        @tasks=current_user.tasks
+        @tasks=current_user.tasks.includes(:client, :project, :activity)
     end
     
     #create a new task
