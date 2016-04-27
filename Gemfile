@@ -53,6 +53,7 @@ group :development, :test do
   #=====================
   #PROJECT SPECIFIC GEMS
   #=====================
+  gem 'bullet'
   
 end
 
