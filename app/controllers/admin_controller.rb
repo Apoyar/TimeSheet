@@ -109,7 +109,11 @@ class AdminController < ApplicationController
     
     #client management
     def list_clients
-        @clients=Client.all.order(:name)
+        if (params[:client_name])
+            @clients=[Client.find_by_name(params[:client_name])]
+        else
+            @clients=[]
+        end
         @users=User.all.order(:handle)
     end
     def edit_client
@@ -133,10 +137,10 @@ class AdminController < ApplicationController
                 Assignment.find(c_delete_params[:assignment]).destroy
                 flash[:notice]='Deleted assignment'
             end
-            redirect_to :back
+            redirect_to '/admin/list_clients'
         rescue
             flash[:error]='There was an error'
-            redirect_to :back
+            redirect_to '/admin/list_clients'
         end
     end
     
@@ -174,7 +178,7 @@ class AdminController < ApplicationController
                 begin
                     Project.find(create_params[:parent_id]).activities.each do |activity|
                         Assignment.create!(user_id: create_params[:project_wide], activity_id: activity.id)
-                        flash[:notice]='Assigned user '+User.find(create_params[:project_wide]).handle+' to all activities in project:'+Project.find(create_params[:parent_id]).name
+                        flash[:notice]='Assigned user '+User.find(create_params[:project_wide]).handle+' to all activities in project '+Project.find(create_params[:parent_id]).name
                     end
                 rescue
                     flash[:error]='You can only assign a user once to to a particular activity'

@@ -24,6 +24,6 @@
  *= require nprogress
  *= require nprogress-bootstrap
  
- *= require app.css
+ *= require app.scss
  
  */

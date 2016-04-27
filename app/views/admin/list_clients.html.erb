@@ -13,9 +13,21 @@
 <%end%>
 <br>
 <p class='text-center'>
+<!--MODAL BUTTON-->
+  <button class='btn btn-success btn-round' data-toggle="modal" data-target="#client_new">Add new client (<%=Client.all.count%>)</button>
+</p>
+<hr>
+<p class='text-center'>
+<%Client.all.each do |client|%>
+  <a id='client_button' href="?client_name=<%=client.name%>" class="btn btn-info <%=params[:client_name]==client.name ? 'btn-fill' : ''%>">
+    <%=client.name%>
+  </a>
+<%end%>
+</p>
+<hr><h1 class='text-center'><span class='glyphicon glyphicon-chevron-down'></span></h1><hr><br>
+<p class='text-center'>
     <!--ADD NEW CLIENT BUTTON AND MODAL-->
-    <!--MODAL BUTTON-->
-    <button class='btn btn-success btn-round' data-toggle="modal" data-target="#client_new">Add new client (<%=@clients.count%>)</button>
+    
     <!--MODAL-->
     <form action='create_client' method='post'>
       
@@ -433,7 +445,6 @@
       </div>
     </div>
   </div>
-  <hr><h1 class='text-center'><span class='glyphicon glyphicon-chevron-down'></span></h1><hr><br>
 <%end%>
 
 </div>
