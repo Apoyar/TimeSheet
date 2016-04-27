@@ -1,4 +1,4 @@
-<div class='container-fluid'>
+<div class='container' style='width: 100%'>
 <%if flash[:notice]%>
   <div class="alert alert-success alert-dismissible fade in" role="alert"> 
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -63,7 +63,7 @@
 
   <div class='row'>
     <div class='col-xs-12' id='client<%=client.id%>'>
-      <div class='well' style='background-color: #F9F9F9'>
+      <div class='well' style='background-color: #F9F9F9; padding: 5px;'>
         
         <!--DELETE CLIENT BUTTON AND MODAL-->
         <!--MODAL BUTTON-->
@@ -141,8 +141,9 @@
         
         
         <%client.projects.each do |project|%>
+          <div class='row'>
           <div class='col-xs-12' id='project<%=project.id%>'>
-            <div class='well'  style='background-color: #FbFbFb'>
+            <div class='well'  style='background-color: #FbFbFb; padding: 5px;'>
               <!--DELETE PROJECT BUTTON AND MODAL-->
               <!--MODAL BUTTON-->
               <h3 class='text-center'><b>Project:</b> <%=project.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#project_del<%=project.id%>">Delete</button></h3>
@@ -271,8 +272,9 @@
               </p><br>
               
               <%project.activities.each do |activity|%>
+                <div class='row'>
                 <div class='col-xs-12' id='activity<%=activity.id%>'>
-                  <div class='well' style='background-color: #FDFDFD'>
+                  <div class='well' style='background-color: #FDFDFD; padding: 5px;'>
                     
                     <!-- DELETE ACTIVITY BUTTON AND MODAL-->
                     <h4 class='text-center bg-info'><b>Activity:</b> <%=activity.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#activity_del<%=activity.id%>">Delete</button></h4>
@@ -361,7 +363,7 @@
                     <%activity.assignments.each do |ass|%>
                     <%= activity.assignments.first==ass ? '<div class=row>'.html_safe : ''%>
                       <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
-                        <div class='well' style='background-color: #FFF;'>
+                        <div class='well' style='background-color: #FFF; padding: 5px;'>
                           
                           <!-- DELETE ASSIGNMENT BUTTON AND MODAL-->
                           <!--MODAL BUTTON-->
@@ -436,15 +438,14 @@
                     
                   </div>
                 </div>
+                </div>
               <%end%>
-              
+              </div>
             </div>
           </div>
         <%end%>
-        
-      </div>
     </div>
-  </div>
+    </div>
+    </div>
 <%end%>
-
 </div>
