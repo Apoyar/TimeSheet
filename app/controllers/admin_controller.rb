@@ -43,12 +43,12 @@ class AdminController < ApplicationController
                 end
                 
                 if all
-                    @tasks=Task.all
+                    @tasks=Task.includes(:user, :client, :project, :activity).all
                     flash[:notice]='Listing all tasks'
                 end
             end
         rescue
-            @tasks=Task.order(:date).limit(20).reverse
+            @tasks=Task.includes(:user, :client, :project, :activity).order(:date).limit(20).reverse
             flash[:notice]='Listing the latest 20 tasks'
         end
         @hours=total_hours(@tasks)
@@ -110,7 +110,7 @@ class AdminController < ApplicationController
     #client management
     def list_clients
         if (params[:client_name])
-            @clients=[Client.preload(:projects, :activities, :assignments, :users, :tasks).find_by_name(params[:client_name])]
+            @clients=[Client.includes({:projects=>[:users, {:activities=>[:users, {:assignments=>:tasks}]}]}).find_by_name(params[:client_name])]
         else
             @clients=[]
         end
@@ -125,6 +125,7 @@ class AdminController < ApplicationController
                 name=Client.find(c_delete_params[:client]).name
                 Client.find(c_delete_params[:client]).destroy
                 flash[:notice]='Deleted client: '+name
+                return redirect_to '/admin/list_clients'
             elsif c_delete_params[:project]
                 name=Project.find(c_delete_params[:project]).name
                 Project.find(c_delete_params[:project]).destroy
@@ -137,10 +138,10 @@ class AdminController < ApplicationController
                 Assignment.find(c_delete_params[:assignment]).destroy
                 flash[:notice]='Deleted assignment'
             end
-            redirect_to '/admin/list_clients'
+            redirect_to :back
         rescue
             flash[:error]='There was an error'
-            redirect_to '/admin/list_clients'
+            redirect_to :back
         end
     end
     
