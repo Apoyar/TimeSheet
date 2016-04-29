@@ -59,6 +59,8 @@ group :development, :test do
   #=====================
   #for db optimization
   gem 'bullet'
+  #for performance tests
+  gem 'rack-mini-profiler'
   
 end
 

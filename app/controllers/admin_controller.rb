@@ -130,15 +130,19 @@ class AdminController < ApplicationController
                 name=Project.find(c_delete_params[:project]).name
                 Project.find(c_delete_params[:project]).destroy
                 flash[:notice]='Deleted project: '+name
+                return redirect_to :back
             elsif c_delete_params[:activity]
+                project=Activity.find(c_delete_params[:activity]).project.id
                 name=Activity.find(c_delete_params[:activity]).name
                 Activity.find(c_delete_params[:activity]).destroy
                 flash[:notice]='Deleted activity: '+name
+                return redirect_to request.referer + '#project'+project.to_s
             elsif c_delete_params[:assignment]
+                activity=Assignment.find(c_delete_params[:assignment]).activity.id
                 Assignment.find(c_delete_params[:assignment]).destroy
                 flash[:notice]='Deleted assignment'
+                return redirect_to request.referer + '#activity'+activity.to_s
             end
-            redirect_to :back
         rescue
             flash[:error]='There was an error'
             redirect_to :back
@@ -157,21 +161,25 @@ class AdminController < ApplicationController
                 
                 Client.create(name: create_params[:client])
                 flash[:notice]='Client: '+create_params[:client]+', created! '
+                return redirect_to '/admin/list_clients'+'?client_name='+create_params[:client]
                 
             elsif create_params[:project]
             
                 Client.find(create_params[:parent_id]).projects.create(name: create_params[:project])
                 flash[:notice]='Project: '+create_params[:project]+', created! '
+                return redirect_to request.referer+'#project'+Project.find_by_name(create_params[:project]).id.to_s
                 
             elsif create_params[:activity]
             
                 Project.find(create_params[:parent_id]).activities.create(name: create_params[:activity])
                 flash[:notice]='Activity: '+create_params[:activity]+', created! '
+                return redirect_to request.referer+'#activity'+Activity.find_by_name(create_params[:activity]).id.to_s
                 
             elsif create_params[:user_id]
                 begin
                     Assignment.create!(user_id: create_params[:user_id], activity_id: create_params[:parent_id])
                     flash[:notice]='Assigned user '+User.find(create_params[:user_id]).handle+' to activity '+Activity.find(create_params[:parent_id]).name
+                    return redirect_to request.referer+'#ass'+Assignment.where(user_id: create_params[:user_id], activity_id: create_params[:parent_id]).first.id.to_s
                 rescue
                     flash[:error]='You can only assign a user once to to a particular activity'
                 end
@@ -181,6 +189,7 @@ class AdminController < ApplicationController
                         Assignment.create!(user_id: create_params[:project_wide], activity_id: activity.id)
                         flash[:notice]='Assigned user '+User.find(create_params[:project_wide]).handle+' to all activities in project '+Project.find(create_params[:parent_id]).name
                     end
+                    return redirect_to request.referer+'#project'+create_params[:parent_id].to_s
                 rescue
                     flash[:error]='You can only assign a user once to to a particular activity'
                 end

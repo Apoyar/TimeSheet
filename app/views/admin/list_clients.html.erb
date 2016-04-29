@@ -24,7 +24,8 @@
   </a>
 <%end%>
 </p>
-<hr><h1 class='text-center'><span class='glyphicon glyphicon-chevron-down'></span></h1>
+<hr>
+<%=params[:client_name] ? "<h1 class='text-center'><span class='glyphicon glyphicon-chevron-down'></span></h1>".html_safe : ""%>
 <p class='text-center'>
     <!--ADD NEW CLIENT BUTTON AND MODAL-->
     
@@ -146,8 +147,14 @@
             <div class='well'  style='background-color: #FbFbFb; padding: 5px;'>
               <!--DELETE PROJECT BUTTON AND MODAL-->
               <!--MODAL BUTTON-->
-              <h3 class='text-center'><b>Project:</b> <%=project.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#project_del<%=project.id%>">Delete</button></h3>
+              <h3 class='text-center'><b>Project:</b> <%=project.name%>
+              &nbsp;&nbsp;
+              <button type="button" class="btn btn-default btn-success" data-toggle="collapse" data-target="#collapse_project<%=project.id%>"><span class='glyphicon glyphicon-chevron-down'></span></button>
+              &nbsp;&nbsp;
+              <button class='btn btn-danger' data-toggle="modal" data-target="#project_del<%=project.id%>">Delete</button>
               
+              </h3>
+              <div id='collapse_project<%=project.id%>' class='collapse'>
               <!--MODAL-->
               <form action='delete_client' method='post'>
                 
@@ -277,8 +284,15 @@
                   <div class='well' style='background-color: #FDFDFD; padding: 5px;'>
                     
                     <!-- DELETE ACTIVITY BUTTON AND MODAL-->
-                    <h4 class='text-center bg-info'><b>Activity:</b> <%=activity.name%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' data-toggle="modal" data-target="#activity_del<%=activity.id%>">Delete</button></h4>
+                    <h4 class='text-center bg-info'><b>Activity:</b> <%=activity.name%>
+                    &nbsp;&nbsp;
+                    <button type="button" class="btn btn-default btn-success" data-toggle="collapse" data-target="#collapse_activity<%=activity.id%>"><span class='glyphicon glyphicon-chevron-down'></span></button>
+                    &nbsp;&nbsp;
+                    <button class='btn btn-danger' data-toggle="modal" data-target="#activity_del<%=activity.id%>">Delete</button>
                     
+                    </h4>
+                    
+                    <div id='collapse_activity<%=activity.id%>' class='collapse'>
                     
                     <!--MODAL-->
                     <form action='delete_client' method='post'>
@@ -437,9 +451,11 @@
                     <%end%>
                     
                   </div>
+                  </div>
                 </div>
                 </div>
               <%end%>
+              </div>
               </div>
             </div>
           </div>
