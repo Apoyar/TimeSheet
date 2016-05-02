@@ -1,6 +1,6 @@
 class Task < ActiveRecord::Base
     #relationships
-    belongs_to :assignment
+    belongs_to :assignment, touch: true
     has_one :activity, through: :assignment
     has_one :user, through: :assignment
     has_one :client, through: :assignment

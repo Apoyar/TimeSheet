@@ -114,9 +114,26 @@ class AdminController < ApplicationController
         else
             @clients=[]
         end
-        @users=User.all.order(:handle)
+        @users=User.all.order(:handle).entries
     end
     def edit_client
+        if edit_c_params[:client_id]
+            client=Client.find(edit_c_params[:client_id])
+            client.update(name: edit_c_params[:name])
+            flash[:notice]='Updated client: '+client.name
+            expire_fragment('client'+client.id.to_s)
+            return redirect_to '/admin/list_clients?client_name='+client.name
+        elsif edit_c_params[:project_id]
+            project=Project.find(edit_c_params[:project_id])
+            project.update(name: edit_c_params[:name])
+            flash[:notice]='Updated project: '+project.name
+            return redirect_to request.referer + '#project'+project.id.to_s
+        elsif edit_c_params[:activity_id]
+            activity=Activity.find(edit_c_params[:activity_id])
+            activity.update(name: edit_c_params[:name])
+            flash[:notice]='Updated activity: '+activity.name
+            return redirect_to request.referer + '#activity'+activity.id.to_s
+        end
     end
     #controller for deleting clients/projects/activities
     def delete_client
@@ -193,8 +210,18 @@ class AdminController < ApplicationController
                 rescue
                     flash[:error]='You can only assign a user once to to a particular activity'
                 end
+            elsif create_params[:client_wide]
+                begin
+                    Client.find(create_params[:parent_id]).activities.each do |activity|
+                        Assignment.create!(user_id: create_params[:client_wide], activity_id: activity.id)
+                    end
+                    flash[:notice]='Assigned user '+User.find(create_params[:client_wide]).handle+' to all activities in client '+Client.find(create_params[:parent_id]).name
+                    return redirect_to :back
+                rescue
+                    flash[:error]='You can only assign a user once to to a particular activity'
+                end
             end
-            redirect_to :back
+            return redirect_to :back
         rescue
             flash[:error]='There was an error'
             redirect_to :back
@@ -253,6 +280,9 @@ class AdminController < ApplicationController
     end
     private
     # Never trust parameters from the scary internet, only allow the white list through.
+        def edit_c_params
+            params.require(:edit).permit(:client_id, :project_id, :activity_id, :name)
+        end
         def change_user_params
             params.require(:user).permit(:handle, :email, :first_name, :last_name, :email, :tel, :whatsapp, :id, :is_admin)
         end
@@ -269,7 +299,7 @@ class AdminController < ApplicationController
             params.require(:user).permit(:handle, :password, :is_admin, )
         end
         def create_params
-            params.require(:create).permit(:project_wide, :client, :project, :activity, :parent_id, :user_id)
+            params.require(:create).permit(:client_wide, :project_wide, :client, :project, :activity, :parent_id, :user_id)
         end
         
         def c_delete_params

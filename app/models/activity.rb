@@ -1,6 +1,6 @@
 class Activity < ActiveRecord::Base
     #relationships
-    belongs_to :project
+    belongs_to :project, touch: true
     
     has_one :client, through: :project
     
