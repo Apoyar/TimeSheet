@@ -121,7 +121,6 @@ class AdminController < ApplicationController
             client=Client.find(edit_c_params[:client_id])
             client.update(name: edit_c_params[:name])
             flash[:notice]='Updated client: '+client.name
-            expire_fragment('client'+client.id.to_s)
             return redirect_to '/admin/list_clients?client_name='+client.name
         elsif edit_c_params[:project_id]
             project=Project.find(edit_c_params[:project_id])

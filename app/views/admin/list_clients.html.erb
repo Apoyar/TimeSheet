@@ -62,7 +62,6 @@
 </p><br>
 
 <%@clients.each do |client|%>
-  <%cache('client'+client.id.to_s) do%>
   <div class='row'>
     <div class='col-xs-12' id='client<%=client.id%>'>
       <div class='well' style='background-color: #F9F9F9; padding: 5px;'>
@@ -227,7 +226,6 @@
             </form>
         </p><br>
         
-        <%end%>
         <%client.projects.order(:id).each do |project|%>
           <div class='row'>
           <div class='col-xs-12' id='project<%=project.id%>'>
