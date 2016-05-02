@@ -62,6 +62,7 @@
 </p><br>
 
 <%@clients.each do |client|%>
+  <%cache client do%>
   <div class='row'>
     <div class='col-xs-12' id='client<%=client.id%>'>
       <div class='well' style='background-color: #F9F9F9; padding: 5px;'>
@@ -112,8 +113,6 @@
           </div>
           </form>
           
-          
-          
           <!--MODAL FOR EDITING CLIENT-->
           <form action='edit_client' method='post'>
             
@@ -152,7 +151,7 @@
           <!--ADD PROJECT BUTTON AND MODAL-->
           <!--MODAL BUTTON-->
           <button class='btn btn-success btn-round' data-toggle="modal" data-target="#assCW_new<%=client.id%>">Add client-wide assignment</button>
-          <button class='btn btn-success btn-round' data-toggle="modal" data-target="#project_new<%=client.id%>">Add new project (<%=client.projects.count%>)</button>
+          <button class='btn btn-success btn-round' data-toggle="modal" data-target="#project_new<%=client.id%>">Add new project(<%=client.projects.count%>)</button>
           <!--MODAL-->
           <form action='create_client' method='post'>
             
@@ -204,13 +203,13 @@
                     <div class="form-group">
                       <label for="user">User:</label>
                       <select name='create[client_wide]' class="form-control" id="user">
-                        <%@users.each do |user|%>
-                            <%if client.users.include? user%>
-                            <%elsif user.is_admin?%>
-                            <%else%>
-                              <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
-                            <%end%>
-                        <%end%>
+                          <%@users.each do |user|%>
+                              <%if client.users.include? user%>
+                              <%elsif user.is_admin?%>
+                              <%else%>
+                                <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                              <%end%>
+                          <%end%>
                       </select>
                     </div>
                       
@@ -225,8 +224,8 @@
             </div>
             </form>
         </p><br>
-        
         <%client.projects.order(:id).each do |project|%>
+        <%cache project do%>
           <div class='row'>
           <div class='col-xs-12' id='project<%=project.id%>'>
             <div class='well'  style='background-color: #FbFbFb; padding: 5px;'>
@@ -338,13 +337,13 @@
                             <div class="form-group">
                               <label for="user">User:</label>
                               <select name='create[project_wide]' class="form-control" id="user">
-                                <%@users.each do |user|%>
-                                    <%if project.users.include? user%>
-                                    <%elsif user.is_admin?%>
-                                    <%else%>
-                                      <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
-                                    <%end%>
-                                <%end%>
+                                  <%@users.each do |user|%>
+                                      <%if project.users.include? user%>
+                                      <%elsif user.is_admin?%>
+                                      <%else%>
+                                        <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                                      <%end%>
+                                  <%end%>
                               </select>
                             </div>
                               
@@ -399,6 +398,7 @@
               </p><br>
               
               <%project.activities.order(:id).each do |activity|%>
+              <%cache activity do%>
                 <div class='row'>
                 <div class='col-xs-12' id='activity<%=activity.id%>'>
                   <div class='well' style='background-color: #FDFDFD; padding: 5px;'>
@@ -531,7 +531,7 @@
                     <%counter=-1%>
                     
                     <%activity.assignments.order(:id).each do |ass|%>
-                    
+                    <%cache ass do%>
                     <%= activity.assignments.first==ass ? '<div class=row>'.html_safe : ''%>
                       <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
                         <div class='well' style='background-color: #FFF; padding: 5px;'>
@@ -606,18 +606,22 @@
                     <%= activity.assignments.last==ass ? '</div>'.html_safe : ''%>
                     <%counter=counter+1%>
                     <%end%>
+                  <%end%>
                   </div>
                   </div>
                 </div>
                 </div>
               <%end%>
+            <%end%>
               </div>
               </div>
             </div>
           </div>
         <%end%>
+      <%end%>
     </div>
     </div>
     </div>
+    <%end%>
 <%end%>
 </div>

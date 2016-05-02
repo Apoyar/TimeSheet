@@ -109,8 +109,8 @@ class AdminController < ApplicationController
     
     #client management
     def list_clients
-        if (params[:client_name])
-            @clients=[Client.includes({:projects=>[:users, {:activities=>[:users, {:assignments=>:tasks}]}]}).find_by_name(params[:client_name])]
+        if params[:client_name]
+            @clients=[Client.preload([:users, {:projects=>[:users, {:activities=>[:users, {:assignments=>[:user, :tasks]}]}]}]).find_by_name(params[:client_name])]
         else
             @clients=[]
         end

@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
     attr_accessor :password, :password_verify
     
     #callbacks
-    before_save :encrypt_password
+    before_save :encrypt_password, :invalidate_cache
     after_save :clear_password
     
     #method which runs before the user is saved/updated/created
@@ -47,7 +47,9 @@ class User < ActiveRecord::Base
     def password_check
         return self.encrypted_password==BCrypt::Engine.hash_secret(self.password_verify, self.salt)
     end
-    
+    def invalidate_cache
+        Rails.cache.clear
+    end
     validates :handle, length: { minimum: 3}
     validates :handle, uniqueness: true
 end
