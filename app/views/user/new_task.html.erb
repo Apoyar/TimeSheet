@@ -33,7 +33,7 @@
     <div class="form-group">
       <label for="date">Date:</label>
       <select name='task[date]' class="form-control" id="date">
-        <%[*Date.today.beginning_of_month..Date.today].each do |date|%>
+        <%[*(Date.today.beginning_of_month-2).beginning_of_month..Date.today].each do |date|%>
             <option value='<%=date%>'><%=date%></option>
         <%end%>
       </select>
