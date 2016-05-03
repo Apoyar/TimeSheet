@@ -61,6 +61,8 @@ group :development, :test do
   gem 'bullet'
   #for performance tests
   gem 'rack-mini-profiler'
+  #for secure vars
+  gem 'figaro'
   
 end
 

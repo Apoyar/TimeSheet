@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'login' => 'session#new'
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
+  get 'forgot_password' => 'session#forgot_password'
+  post 'reset_password' => 'session#reset_password'
   
   #USER STUFF
   get 'user/new_entry' => 'user#new_task'

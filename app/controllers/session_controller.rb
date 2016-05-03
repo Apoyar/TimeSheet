@@ -1,9 +1,14 @@
 class SessionController < ApplicationController
     
-    def new
+    before_action :check_cred, except: :destroy
+    
+    def check_cred
         if current_user
             redirect_to root_path
         end
+    end
+    def new
+        
     end
     
     def create
@@ -22,9 +27,26 @@ class SessionController < ApplicationController
         reset_session
         redirect_to root_path
     end
+    def forgot_password
+        
+    end
+    def reset_password
+        if User.where(email: reset_params)
+            UserMailer.reset_email(email: reset_params)
+            flash[:notice]='We have sent you an email with instructions to reset your password'
+            redirect_to :back
+        else
+            flash[:error]='Sorry no user with such email was found'
+            redirect_to :back
+        end
+    end
     private
         # Never trust parameters from the scary internet, only allow the white list through.
         def reference_params
           params.require(:user).permit(:handle, :password)
+        end
+        
+        def reset_params
+            params.require(:email)
         end
 end

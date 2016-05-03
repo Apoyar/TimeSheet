@@ -11,8 +11,5 @@ class FixTimestamps < ActiveRecord::Migration
     
     add_column(:assignments, :created_at, :datetime, null: false, :default => Time.now)
     add_column(:assignments, :updated_at, :datetime, null: false, :default => Time.now)
-    
-    add_column(:tasks, :created_at, :datetime, null: false, :default => Time.now)
-    add_column(:tasks, :updated_at, :datetime, null: false, :default => Time.now)
   end
 end
