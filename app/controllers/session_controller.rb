@@ -37,7 +37,7 @@ class SessionController < ApplicationController
             user.password=password
             user.save!
             flash[:notice]='We have sent you an email with instructions to reset your password'
-            UserMailer.reset_email(reset_params, user, password).deliver_now!
+            UserMailer.reset_email(reset_params, user, password).deliver_now
             redirect_to :back
         else
             flash[:error]='Sorry no user with such email was found'
