@@ -110,12 +110,13 @@ class AdminController < ApplicationController
     #client management
     def list_clients
         if params[:client_name]
-            @clients=[Client.preload([:users, {:projects=>[:users, {:activities=>[:users, {:assignments=>[:user, :tasks]}]}]}]).find_by_name(params[:client_name])]
+            @clients=[Client.includes([:users, {:projects=>[:users, {:activities=>[:users, {:assignments=>[:user, :tasks]}]}]}]).find_by_name(params[:client_name])]
         else
             @clients=[]
         end
         @users=User.all.order(:handle).entries
     end
+    
     def edit_client
         if edit_c_params[:client_id]
             client=Client.find(edit_c_params[:client_id])

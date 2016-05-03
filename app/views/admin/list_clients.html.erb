@@ -204,7 +204,7 @@
                       <label for="user">User:</label>
                       <select name='create[client_wide]' class="form-control" id="user">
                           <%@users.each do |user|%>
-                              <%if client.users.include? user%>
+                              <%if client.users.entries.include? user%>
                               <%elsif user.is_admin?%>
                               <%else%>
                                 <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
@@ -338,7 +338,7 @@
                               <label for="user">User:</label>
                               <select name='create[project_wide]' class="form-control" id="user">
                                   <%@users.each do |user|%>
-                                      <%if project.users.include? user%>
+                                      <%if project.users.entries.include? user%>
                                       <%elsif user.is_admin?%>
                                       <%else%>
                                         <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
@@ -503,7 +503,7 @@
                               <label for="user">User:</label>
                               <select name='create[user_id]' class="form-control" id="user">
                                 <%@users.each do |user|%>
-                                    <%if activity.users.include? user%>
+                                    <%if activity.users.entries.include? user%>
                                     <%elsif user.is_admin?%>
                                     <%else%>
                                       <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
@@ -529,10 +529,9 @@
                     
                     
                     <%counter=-1%>
-                    
                     <%activity.assignments.order(:id).each do |ass|%>
                     <%cache ass do%>
-                    <%= activity.assignments.first==ass ? '<div class=row>'.html_safe : ''%>
+                    <%= counter==-1 ? '<div class=row>'.html_safe : ''%>
                       <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
                         <div class='well' style='background-color: #FFF; padding: 5px;'>
                           
@@ -601,12 +600,12 @@
                           </table>
                           
                         </div>
-                      </div>
+                      </div>  
                     <%= counter%2 == 0 ? "</div><div class=row>".html_safe : ""%>
-                    <%= activity.assignments.last==ass ? '</div>'.html_safe : ''%>
                     <%counter=counter+1%>
                     <%end%>
-                  <%end%>
+                    <%end%>
+                    </div>
                   </div>
                   </div>
                 </div>

@@ -12,7 +12,6 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
-
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
 
@@ -46,7 +45,10 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     :address => ENV["SMTP_server"],
     :user_name => ENV["mail_Account"],
-    :password => ENV["mail_Password"]
+    :password => ENV["mail_Password"],
+    :authentication => :cram_md5,
+    :enable_starttls_auto => false,
+    :port => 25
   }
   
   config.after_initialize do
