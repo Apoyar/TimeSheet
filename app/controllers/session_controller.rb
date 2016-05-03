@@ -31,7 +31,7 @@ class SessionController < ApplicationController
         
     end
     def reset_password
-        @user=User.where(email: reset_params)
+        @user=User.find_by_email(reset_params)
         if @user
             UserMailer.reset_email(reset_params).deliver_now
             @password=Faker::Internet.password(8)
