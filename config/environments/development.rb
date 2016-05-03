@@ -46,9 +46,8 @@ Rails.application.configure do
     :address => ENV["SMTP_server"],
     :user_name => ENV["mail_Account"],
     :password => ENV["mail_Password"],
-    :authentication => :cram_md5,
-    :enable_starttls_auto => false,
-    :port => 25
+    :port => 25,
+    :enable_starttls_auto => false
   }
   
   config.after_initialize do
