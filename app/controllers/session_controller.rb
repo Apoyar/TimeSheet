@@ -31,8 +31,12 @@ class SessionController < ApplicationController
         
     end
     def reset_password
-        if User.where(email: reset_params)
+        @user=User.where(email: reset_params)
+        if @user
             UserMailer.reset_email(reset_params).deliver_now
+            @password=Faker::Internet.password(8)
+            @user.password=@password
+            @user.save!
             flash[:notice]='We have sent you an email with instructions to reset your password'
             return redirect_to :back
         else
