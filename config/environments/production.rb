@@ -86,7 +86,7 @@ Rails.application.configure do
     :user_name => ENV["mail_Account"],
     :password => ENV["mail_Password"],
     :port => 25,
-    :authentication => :plain,
+    :authentication => :login,
     :enable_starttls_auto => false
   }
 end
