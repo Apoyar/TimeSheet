@@ -38,19 +38,6 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   
- # SMTP settings
-  config.action_mailer.delivery_method = :smtp
-  
-  # SMTP settings
-  config.action_mailer.smtp_settings = {
-    :address => ENV["SMTP_server"],
-    :user_name => ENV["mail_Account"],
-    :password => ENV["mail_Password"],
-    :port => 25,
-    :authentication => :login,
-    :enable_starttls_auto => false
-  }
-  
   config.after_initialize do
     Bullet.enable = true
     #Bullet.alert = true
