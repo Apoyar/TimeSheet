@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-    default from: 'noreply@timesheet.apoyar.eu'
+    default from: 'relay@apoyar.eu'
     def reset_email(email, user, password)
         @user=user
         @password=password
