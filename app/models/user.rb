@@ -52,4 +52,5 @@ class User < ActiveRecord::Base
     end
     validates :handle, length: { minimum: 3}
     validates :handle, uniqueness: true
+    validates :email, uniqueness: true
 end

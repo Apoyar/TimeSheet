@@ -16,6 +16,7 @@ class SessionController < ApplicationController
         @user=User.find_by_handle(reference_params[:handle])
         if @user && @user.encrypted_password==BCrypt::Engine.hash_secret(reference_params[:password], @user.salt)
             session[:user_id]=@user.id
+            reference_params[:remember_me] ? session[:timeout]=DateTime.now + 30.days : session[:timeout]=DateTime.now + 30.minutes
         else
             flash[:error]='Incorect username or password'
         end
@@ -47,7 +48,7 @@ class SessionController < ApplicationController
     private
         # Never trust parameters from the scary internet, only allow the white list through.
         def reference_params
-          params.require(:user).permit(:handle, :password)
+          params.require(:user).permit(:handle, :password, :remember_me)
         end
         
         def reset_params
