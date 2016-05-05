@@ -13,8 +13,7 @@
 <%end%>
 
 
-<div class='text-center'><button class="btn btn-block btn-success" data-toggle="modal" data-target="#user_new">Add a new user</button></div>
-
+    <!--Modal for creating a user-->
     <form action='create_user' method='post'>
       
     <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
@@ -24,30 +23,93 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Add user</h4>
+            <h3 class="modal-title" id="myModalLabel">Add user</h3>
           </div>
           <div class="modal-body">
-              
+              <h4>Required parameters:</h4>
+              <hr>
               <div class="form-group">
-                <label for="inputHandle">Handle:</label>
+                <label for="inputHandle">Handle (must be unique):</label>
                 <input name='user[handle]' type="text" id="inputHandle" class="form-control" required>
                 <br>
               </div>
               <div class="form-group">
                 <label for="inputPass">Password:</label>
-                <input name='user[password]' type="password" id="inputHandle" class="form-control" required>
-                <br>
+                <input name='user[password]' type="password" id="inputPass" class="form-control" required>
               </div>
+              <h4>Optional parameters:</h4>
+              <hr>
+              <div class='row'>
+                <div class='col-xs-8'>
+                  <div class="form-group">
+                    <label for="inputEmail">Email (must be unique/empty):</label>
+                    <input name='user[email]' type="email" id="inputEmail" class="form-control">
+                  </div>
+                </div>
+                <div class='col-xs-4'>
+                  <label class="checkbox" for="checkbox1" style='margin-top: 35px;'>
+                    <input type="checkbox" name='user[is_admin]' value="true" data-toggle="checkbox" disabled>Send credentials
+                  </label>
+                </div>
+              </div>
+              <br>
               <div class="form-group">
-              <label class="checkbox" for="checkbox1">
-  
-                  <input type="checkbox" name='user[is_admin]' value="true" data-toggle="checkbox">
-              
-                  Admin
-              
-              </label>
+                <label for="inputFn">First Name:</label>
+                <input name='user[first_name]' type="email" id="inputFn" class="form-control" >
               </div>
-              
+              <br>
+              <div class="form-group">
+                <label for="inputLn">Last Name:</label>
+                <input name='user[last_name]' type="text" id="inputFn" class="form-control" >
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="inputTel">Telephone:</label>
+                <input name='user[tel]' type="text" id="inputTel" class="form-control">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="inputWa">Whatsapp:</label>
+                <input name='user[whatsapp]' type="text" id="inputWa" class="form-control">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="permissions">Permissions:</label>
+                <div class='row' id='permissions'>
+                  
+                  <div class='col-xs-12'>
+                    <label class="radio">
+                      <input type="radio" name="user[permission]" data-toggle="radio" id="optionsRadios1" value="default" checked>
+                      <i></i>Regular
+                    </label>
+                  </div>
+                  <div class='col-xs-12'>
+                    <label class="radio">
+                      <input type="radio" name="user[permission]" data-toggle="radio" id="optionsRadios4" value="activity">
+                      <i></i>Add new acivities to assigned project
+                    </label>
+                  </div>
+                  <div class='col-xs-12'>
+                    <label class="radio">
+                      <input type="radio" name="user[permission]" data-toggle="radio" id="optionsRadios3" value="project">
+                      <i></i>Add new projects/activities to assigned client
+                    </label>
+                  </div>
+                  <div class='col-xs-12'>
+                    <label class="radio">
+                      <input type="radio" name="user[permission]" data-toggle="radio" id="optionsRadios2" value="client">
+                      <i></i>Add new clients/projects/activities
+                    </label>
+                  </div>
+                  <div class='col-xs-12'>
+                    <label class="radio">
+                      <input type="radio" name="user[permission]" data-toggle="radio" id="optionsRadios1" value="admin">
+                      <i></i>Administrator
+                    </label>
+                  </div>
+                  
+                </div>
+              </div>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-success">Create</button>
@@ -63,6 +125,46 @@
 <table class="table" data-toggle="table">
 <thead>
 <tr>
+        <th>
+            <label for="sU" class="sr-only">Handle:</label>
+            <input name='search[user]' type="text" id="sU" class="form-control" placeholder='Filter by handle...' value='<%=@params ? @params[:user] : ''%>'>
+        </th> 
+            
+        <th>
+            <label for="sC" class="sr-only">First Name:</label>
+            <input name='search[client]' type="text" id="sC" class="form-control" placeholder='Filter by first name...' value='<%=@params ? @params[:client] : ''%>'>
+        </th> 
+        
+        <th>
+            <label for="sP" class="sr-only">Last Name:</label>
+            <input name='search[project]' type="text" id="sP" class="form-control" placeholder='Filter by last name...' value='<%=@params ? @params[:project] : ''%>'>
+        </th> 
+        
+        <th>
+            <label for="sA" class="sr-only">Email:</label>
+            <input name='search[activity]' type="text" id="sA" class="form-control" placeholder='Filter by email...' value='<%=@params ? @params[:activity] : ''%>'>
+        </th>
+            
+        <th>
+            <button type='submit' class="btn btn-success btn-block"><span class='glyphicon glyphicon-search'></span></button>
+            <%='</form>'.html_safe%>
+        </th> 
+        <th>
+          <div class='text-center'><button class="btn btn-block btn-success btn-fill" data-toggle="modal" data-target="#user_new"><span class='glyphicon glyphicon-plus'></span> Add a new user</button></div>
+        </th>
+        <th>
+        </th> 
+        <th>
+            
+        </th>
+        <th>
+          
+        </th>
+        <th>
+          
+        </th>
+</tr>
+<tr>
   <th data-field="handle" data-sortable="true">
     Handle
   </th>
@@ -75,17 +177,18 @@
   <th data-field="email" data-sortable="true">
     Email
   </th>
-  <th data-field="whatsapp" data-sortable="true">
+  <th data-field="whatsapp" data-sortable="false">
     Whatsapp
   </th>
-  <th data-field="tel" data-sortable="true">
+  <th data-field="tel" data-sortable="false">
     Telephone
+  </th>
+  <th data-field="ass" data-sortable="true">
+    Assignments
   </th>
   <th data-field="edit" data-sortable="false">
   </th>
   <th data-field="vass" data-sortable="false">
-  </th>
-  <th data-field="permissions" data-sortable="false">
   </th>
   <th data-field="delete" data-sortable="false">
   </th>
@@ -115,13 +218,48 @@
         <%=user.tel%>
       </td>
       <td>
+        <%=user.assignments.count%>
+      </td>
+      <td>
         <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#edit<%=user.id%>">Edit</button>
       </td>
       <td>
         <button class="btn btn-default btn-block" data-toggle="modal" data-target="#vass<%=user.id%>">View assignments</button>
-      </td>
-      <td>
-        <button class="btn btn-warning btn-fill btn-block" data-toggle="modal" data-target="#permissions<%=user.id%>">Permissions</button>
+        
+        
+        <!--LIST ASSIGNMENTS MODAL-->
+        <div class="modal fade" id="vass<%=user.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Assignments for <%=user.handle%></h4>
+              </div>
+              <div class="modal-body">
+                
+                  <%if user.assignments.count!=0%>
+                  Legend: (Client | Project | Activity)<br><br>
+                  <ul>
+                  <%user.assignments.each do |ass|%>
+                    <li><%=ass.client.name+'     |     '+ass.project.name+'     |     '+ass.activity.name%></li>
+                  <%end%>
+                  </ul>
+                  <%else%>
+                    This User has no assignments yet
+                  <%end%>
+                  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <br><br>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
       </td>
       <td>
         <button class="btn btn-danger btn-fill btn-block" data-toggle="modal" data-target="#delete<%=user.id%>">Delete</button>
@@ -132,6 +270,4 @@
 </tbody>
 </table>
 
-
-</div>
 </div>

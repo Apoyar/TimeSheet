@@ -168,7 +168,7 @@ class AdminController < ApplicationController
     
     #client management
     def list_users
-        @users=User.all.order(:handle)
+        @users=User.all.includes({assignments: [:client, :project, :activity]}).order(:handle)
     end
     
     #controller for creating clients/projects/activities

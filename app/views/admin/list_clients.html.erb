@@ -207,7 +207,7 @@
                               <%if client.users.entries.include? user%>
                               <%elsif user.is_admin?%>
                               <%else%>
-                                <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                                <option value='<%=user.id%>'><%=user.handle+(user.email ? '   |   '+user.email : '')%></option>
                               <%end%>
                           <%end%>
                       </select>
@@ -341,7 +341,7 @@
                                       <%if project.users.entries.include? user%>
                                       <%elsif user.is_admin?%>
                                       <%else%>
-                                        <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                                        <option value='<%=user.id%>'><%=user.handle+(user.email ? '   |   '+user.email : '')%></option>
                                       <%end%>
                                   <%end%>
                               </select>
@@ -506,7 +506,7 @@
                                     <%if activity.users.entries.include? user%>
                                     <%elsif user.is_admin?%>
                                     <%else%>
-                                      <option value='<%=user.id%>'><%=user.handle+'   |   '+(user.email ? user.email : '')%></option>
+                                      <option value='<%=user.id%>'><%=user.handle+(user.email ? '   |   '+user.email : '')%></option>
                                     <%end%>
                                 <%end%>
                               </select>

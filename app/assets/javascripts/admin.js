@@ -17,4 +17,17 @@ $(document).ready(function(){
     
         $(document).scrollTop( $(location).offset().top ); 
     }
+    
+    
+    
+    $('#inputEmail').first().keyup(function(){
+        if ($(this).val()==''){
+            $('#user_new > div > div > div.modal-body > div.row > div.col-xs-4 > label > input[type="checkbox"]').first().attr('disabled', true);
+            $('#user_new > div > div > div.modal-body > div.row > div.col-xs-4 > label').first().attr('class', 'checkbox disabled');
+        }
+        else{
+            $('#user_new > div > div > div.modal-body > div.row > div.col-xs-4 > label > input[type="checkbox"]').first().attr('disabled', false);
+            $('#user_new > div > div > div.modal-body > div.row > div.col-xs-4 > label').first().attr('class', 'checkbox');
+        }
+    });
 });
