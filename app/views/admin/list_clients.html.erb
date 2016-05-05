@@ -58,11 +58,9 @@
       </div>
     </div>
     </form>
-    
 </p><br>
 
-<%@clients.each do |client|%>
-  <%cache client do%>
+<%client=@clients%>
   <div class='row'>
     <div class='col-xs-12' id='client<%=client.id%>'>
       <div class='well' style='background-color: #F9F9F9; padding: 5px;'>
@@ -151,7 +149,7 @@
           <!--ADD PROJECT BUTTON AND MODAL-->
           <!--MODAL BUTTON-->
           <button class='btn btn-success btn-round' data-toggle="modal" data-target="#assCW_new<%=client.id%>">Add client-wide assignment</button>
-          <button class='btn btn-success btn-round' data-toggle="modal" data-target="#project_new<%=client.id%>">Add new project(<%=client.projects.count%>)</button>
+          <button class='btn btn-success btn-round' data-toggle="modal" data-target="#project_new<%=client.id%>">Add new project(<%=client.projects.size%>)</button>
           <!--MODAL-->
           <form action='create_client' method='post'>
             
@@ -224,8 +222,7 @@
             </div>
             </form>
         </p><br>
-        <%client.projects.order(:id).each do |project|%>
-        <%#cache project do%>
+        <%client.projects.each do |project|%>
           <div class='row'>
           <div class='col-xs-12' id='project<%=project.id%>'>
             <div class='well'  style='background-color: #FbFbFb; padding: 5px;'>
@@ -317,7 +314,7 @@
                 <!--MODAL BUTTON-->
                 <button class='btn btn-success btn-round' data-toggle="modal" data-target="#assPW_new<%=project.id%>">Add project-wide assignment</button>
                 <!--MODAL BUTTON-->
-                <button class='btn btn-success btn-round' data-toggle="modal" data-target="#activity_new<%=project.id%>">Add new activity (<%=project.activities.count%>)</button>
+                <button class='btn btn-success btn-round' data-toggle="modal" data-target="#activity_new<%=project.id%>">Add new activity (<%=project.activities.size%>)</button>
                 
                 <form action='create_client' method='post'>
                       
@@ -396,9 +393,7 @@
               
               
               </p><br>
-              
-              <%project.activities.order(:id).each do |activity|%>
-              <%#cache activity do%>
+              <%project.activities.each do |activity|%>
                 <div class='row'>
                 <div class='col-xs-12' id='activity<%=activity.id%>'>
                   <div class='well' style='background-color: #FDFDFD; padding: 5px;'>
@@ -481,7 +476,7 @@
                     
                     <hr>
                     <!-- ADD ASSIGNMENT BUTTON AND MODAL-->
-                    <p class='text-center'><button class='btn btn-success btn-round' data-toggle="modal" data-target="#ass_new<%=activity.id%>">Add new assignment (<%=activity.assignments.count%>)</button></p><br>
+                    <p class='text-center'><button class='btn btn-success btn-round' data-toggle="modal" data-target="#ass_new<%=activity.id%>">Add new assignment (<%=activity.assignments.size%>)</button></p><br>
                     
                     <!--MODAL-->
                     <form action='create_client' method='post'>
@@ -527,10 +522,8 @@
                     
                     
                     
-                    
                     <%counter=-1%>
-                    <%activity.assignments.order(:id).each do |ass|%>
-                    <%#cache ass do%>
+                    <%activity.assignments.each do |ass|%>
                     <%= counter==-1 ? '<div class=row>'.html_safe : ''%>
                       <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
                         <div class='well' style='background-color: #FFF; padding: 5px;'>
@@ -585,7 +578,7 @@
                                 <b>Total hours:</b> <%=result%>
                               </td>
                               <td>
-                                <b>Tasks submitted:</b> <%=ass.tasks.count%>
+                                <b>Tasks submitted:</b> <%=ass.tasks.size%>
                               </td>
                             </tr>
                             <tr>
@@ -603,24 +596,19 @@
                       </div>  
                     <%= counter%2 == 0 ? "</div><div class=row>".html_safe : ""%>
                     <%counter=counter+1%>
-                    <%#end%>
                     <%end%>
                     </div>
                   </div>
                   </div>
                 </div>
                 </div>
-              <%#end%>
             <%end%>
               </div>
               </div>
             </div>
           </div>
-        <%#end%>
       <%end%>
     </div>
     </div>
-    </div>
-    <%end%>
-<%end%>
+  </div>
 </div>
