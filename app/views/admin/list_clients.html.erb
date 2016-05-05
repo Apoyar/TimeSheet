@@ -225,7 +225,7 @@
             </form>
         </p><br>
         <%client.projects.order(:id).each do |project|%>
-        <%cache project do%>
+        <%#cache project do%>
           <div class='row'>
           <div class='col-xs-12' id='project<%=project.id%>'>
             <div class='well'  style='background-color: #FbFbFb; padding: 5px;'>
@@ -398,7 +398,7 @@
               </p><br>
               
               <%project.activities.order(:id).each do |activity|%>
-              <%cache activity do%>
+              <%#cache activity do%>
                 <div class='row'>
                 <div class='col-xs-12' id='activity<%=activity.id%>'>
                   <div class='well' style='background-color: #FDFDFD; padding: 5px;'>
@@ -530,7 +530,7 @@
                     
                     <%counter=-1%>
                     <%activity.assignments.order(:id).each do |ass|%>
-                    <%cache ass do%>
+                    <%#cache ass do%>
                     <%= counter==-1 ? '<div class=row>'.html_safe : ''%>
                       <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
                         <div class='well' style='background-color: #FFF; padding: 5px;'>
@@ -603,20 +603,20 @@
                       </div>  
                     <%= counter%2 == 0 ? "</div><div class=row>".html_safe : ""%>
                     <%counter=counter+1%>
-                    <%end%>
+                    <%#end%>
                     <%end%>
                     </div>
                   </div>
                   </div>
                 </div>
                 </div>
-              <%end%>
+              <%#end%>
             <%end%>
               </div>
               </div>
             </div>
           </div>
-        <%end%>
+        <%#end%>
       <%end%>
     </div>
     </div>
