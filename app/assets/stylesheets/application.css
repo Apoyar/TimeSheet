@@ -16,6 +16,9 @@
  *= require bootstrap.min.css
  *= require get-shit-done.css
  *= require font-awesome.css
+ *= require gsdk-base.css
+ *= require gsdk-checkbox-radio-switch.css
+ *= require gsdk-sliders.css
  *= require bootstrap-table.min.css
  
  *= require nprogress
