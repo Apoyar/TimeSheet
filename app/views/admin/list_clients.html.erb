@@ -59,7 +59,7 @@
     </div>
     </form>
 </p><br>
-
+<%if @clients%>
 <%client=@clients%>
   <div class='row'>
     <div class='col-xs-12' id='client<%=client.id%>'>
@@ -610,6 +610,7 @@
       <%end%>
     </div>
     </div>
+    <%end%>
   </div>
   
 </div>

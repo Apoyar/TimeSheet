@@ -112,7 +112,7 @@ class AdminController < ApplicationController
         if params[:client_name]
             @clients=Client.includes([:users, :projects=>[:users, :activities=>[:assignments=>[:user, :tasks]]]]).find_by_name(params[:client_name])
         else
-            @clients=[]
+            
         end
         @users=User.all.order(:handle).entries
     end

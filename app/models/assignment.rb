@@ -1,7 +1,7 @@
 class Assignment < ActiveRecord::Base
     #relationships
-    belongs_to :activity, touch: true
-    belongs_to :user, touch: true
+    belongs_to :activity
+    belongs_to :user
     
     has_many :tasks, dependent: :destroy
     has_one :project, through: :activity

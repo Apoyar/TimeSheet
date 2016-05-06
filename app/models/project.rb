@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
     #relationships
-    belongs_to :client, touch: true
+    belongs_to :client
     has_many :activities, dependent: :destroy
     
     has_many :tasks, through: :activities, dependent: :destroy

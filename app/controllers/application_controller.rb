@@ -31,9 +31,9 @@ class ApplicationController < ActionController::Base
       temp=nil
       obj.each do |o|
           if !temp.nil? && defined? o.tasks
-            temp=temp+o.tasks.includes(:client, :project, :activity, :user)
+            temp=temp+o.tasks
           elsif defined? o.tasks && temp.nil?
-            temp=o.tasks.includes(:client, :project, :activity, :user)
+            temp=o.tasks
           end
       end
       return temp
