@@ -81,6 +81,4 @@ group :production do
   #=====================
   #12factor for heroku
   gem 'rails_12factor'
-  #for performance tests
-  gem 'rack-mini-profiler'
 end
