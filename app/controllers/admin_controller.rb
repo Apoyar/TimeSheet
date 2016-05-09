@@ -168,7 +168,56 @@ class AdminController < ApplicationController
     
     #client management
     def list_users
-        @users=User.all.includes({assignments: [:client, :project, :activity]}).order(:handle)
+        
+        begin
+            @params=search_params_user
+            if search_params
+                if !search_params_user[:handle].empty?
+                    query = User.where('handle LIKE ?', "%#{search_params_user[:handle]}%")
+                    if query
+                        @users.nil? ? @users=query : @users=@users&query
+                    end
+                end
+                if !search_params_user[:first_name].empty?
+                    query = User.where('first_name LIKE ?', "%#{search_params_user[:first_name]}%")
+                    if query
+                        @users.nil? ? @users=query : @users=@users&query
+                    end
+                end
+                if !search_params_user[:last_name].empty?
+                    query = User.where('last_name LIKE ?', "%#{search_params_user[:last_name]}%")
+                    if query
+                        @users.nil? ? @users=query : @users=@users&query
+                    end
+                end
+                if !search_params_user[:email].empty?
+                    query = User.where('email LIKE ?', "%#{search_params_user[:email]}%")
+                    if query
+                        @users.nil? ? @users=query : @users=@users&query
+                    end
+                end
+                if @users
+                    @users=@users.uniq
+                end
+                
+                flash[:notice]=nil
+                
+                all=true
+                @params.each do |p|
+                    if !p[1].empty?
+                        all=false
+                    end
+                end
+                
+                if all
+                    @users=User.all.includes({assignments: [:client, :project, :activity]}).order(:handle)
+                    flash[:notice]='Listing all users'
+                end
+            end
+        rescue
+            @users=User.includes({assignments: [:client, :project, :activity]}).limit(20).reverse
+            flash[:notice]='Listing the latest 20 users'
+        end
     end
     
     #controller for creating clients/projects/activities
@@ -229,11 +278,15 @@ class AdminController < ApplicationController
     end
     def create_user
         begin
-            User.create!(create_user_params)
+            user=User.create!(create_user_params)
+            if create_user_params[:permission]=='admin'
+                user.is_admin=true
+                user.save!
+            end
             flash[:notice]='User '+create_user_params[:handle]+' was successfully created'
             redirect_to :back
         rescue
-            flash[:error]='Failed to create user, make sure your handle is unique and not shorter than 3 characters'
+            flash[:error]='Failed to create user, make sure your handle/email is unique and not shorter than 3 characters'
             redirect_to :back
         end
     end
@@ -250,45 +303,39 @@ class AdminController < ApplicationController
         end
     end
     
-    def change_password_mass
+    def change_user
         begin
-            user=User.find(change_pass_params[:id])
-            user.password=change_pass_params[:pass]
-            user.save
-            flash[:notice]='Password has been changed'
+            user=User.find(change_user_params[:user_id])
+            if change_user_params[:password]!=''
+                user.password=change_user_params[:password]
+                user.save!
+            end
+            if change_user_params[:permission]=='admin'
+                user.is_admin=true
+                user.save!
+            end
+            paramsedit=change_user_params
+            paramsedit.delete(:password)
+            paramsedit.delete(:user_id)
+            user.update!(paramsedit)
+            flash[:notice]='User '+paramsedit[:handle]+' was successfully created'
             redirect_to :back
         rescue
-            flash[:error]='Something went horribly wrong'
+            flash[:error]='Failed to edit user'
             redirect_to :back
         end
     end
     
-    def change_user
-        begin
-            para=change_user_params
-            user=User.find(para[:id])
-            if para[:is_admin].blank?
-                para[:is_admin]=false
-            end
-            user.update!(para)
-            flash[:notice]='User '+user.handle+' has been updated'
-            redirect_to :back
-        rescue
-            flash[:error]='Something went horribly wrong'
-            redirect_to :back
-        end
-    end
     private
     # Never trust parameters from the scary internet, only allow the white list through.
+        def search_params_user
+            params.require(:search).permit(:handle, :first_name, :last_name, :email)
+        end
         def edit_c_params
             params.require(:edit).permit(:client_id, :project_id, :activity_id, :name)
         end
         def change_user_params
-            params.require(:user).permit(:handle, :email, :first_name, :last_name, :email, :tel, :whatsapp, :id, :is_admin)
-        end
-        
-        def change_pass_params
-            params.require(:pass).permit(:pass, :id)
+            params.require(:user).permit(:handle, :email, :password, :first_name, :last_name, :tel, :whatsapp, :permission, :user_id)
         end
         
         def delete_user_params
@@ -296,7 +343,7 @@ class AdminController < ApplicationController
         end
         
         def create_user_params
-            params.require(:user).permit(:handle, :password, :is_admin, )
+            params.require(:user).permit(:handle, :password, :is_admin, :email, :send_cred, :first_name, :last_name, :tel, :whatsapp, :permission)
         end
         def create_params
             params.require(:create).permit(:client_wide, :project_wide, :client, :project, :activity, :parent_id, :user_id)

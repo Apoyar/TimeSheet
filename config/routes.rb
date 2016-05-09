@@ -40,7 +40,6 @@ Rails.application.routes.draw do
   get 'admin/list_users' => 'admin#list_users'
   post 'admin/create_user' => 'admin#create_user'
   post 'admin/delete_user' => 'admin#delete_user'
-  post 'admin/change_password_mass' => 'admin#change_password_mass'
   post 'admin/change_user' => 'admin#change_user'
   
   # The priority is based upon order of creation: first created -> highest priority.
