@@ -227,7 +227,7 @@
         <%=user.assignments.size%>
       </td>
       <td>
-        <%=user.permission=='admin' ? 'admin' : user.permission=='default' ? 'regular' : user.permission=='client' ? 'add clients/projects/acivities' : user.permission=='project' ? 'add projects/acivities' : user.permission=='activity' ? 'add acivities' : ''%>
+        <%=user.is_admin ? 'administrator' : user.permission=='default' ? 'regular' : user.permission=='client' ? 'add clients/projects/acivities' : user.permission=='project' ? 'add projects/acivities' : user.permission=='activity' ? 'add acivities' : ''%>
       </td>
       <td>
         <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#edit<%=user.id%>">Edit</button>
