@@ -8,6 +8,6 @@ class UserMailer < ApplicationMailer
     def new_notification(email, user, password)
         @user=user
         @password=password
-        mail(to: email, subject: "Password reset for timesheet.apoyar.eu")
+        mail(to: email, subject: "Invitation to timesheet.apoyar.eu")
     end
 end

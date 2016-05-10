@@ -286,7 +286,7 @@ class AdminController < ApplicationController
                 user.save!
             end
             if create_user_params[:send_cred] && create_user_params[:email]
-                UserMailer.new_notification(create_user_params[:email], user, create_user_params[:password]).deliver_now
+                UserMailer.new_notification(create_user_params[:email], user, create_user_params[:password]).deliver_now!   
             end
             flash[:notice]='User '+create_user_params[:handle]+' was successfully created'
             redirect_to :back
