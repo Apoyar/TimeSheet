@@ -278,10 +278,15 @@ class AdminController < ApplicationController
     end
     def create_user
         begin
-            user=User.create!(create_user_params)
+            temp=create_user_params
+            temp.delete(:send_cred)
+            user=User.create!(temp)
             if create_user_params[:permission]=='admin'
                 user.is_admin=true
                 user.save!
+            end
+            if create_user_params[:send_cred] && create_user_params[:email]
+                UserMailer.new_notification(create_user_params[:email], user, create_user_params[:password]).deliver_now
             end
             flash[:notice]='User '+create_user_params[:handle]+' was successfully created'
             redirect_to :back
