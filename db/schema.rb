@@ -20,28 +20,28 @@ ActiveRecord::Schema.define(version: 20160504160450) do
     t.string   "name"
     t.integer  "client_id"
     t.integer  "project_id"
-    t.datetime "created_at", default: '2016-05-05 22:27:23', null: false
-    t.datetime "updated_at", default: '2016-05-05 22:27:23', null: false
+    t.datetime "created_at", default: '2016-05-12 21:18:12', null: false
+    t.datetime "updated_at", default: '2016-05-12 21:18:12', null: false
   end
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "activity_id"
-    t.datetime "created_at",  default: '2016-05-05 22:27:23', null: false
-    t.datetime "updated_at",  default: '2016-05-05 22:27:23', null: false
+    t.datetime "created_at",  default: '2016-05-12 21:18:12', null: false
+    t.datetime "updated_at",  default: '2016-05-12 21:18:12', null: false
   end
 
   create_table "clients", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", default: '2016-05-05 22:27:23', null: false
-    t.datetime "updated_at", default: '2016-05-05 22:27:23', null: false
+    t.datetime "created_at", default: '2016-05-12 21:18:12', null: false
+    t.datetime "updated_at", default: '2016-05-12 21:18:12', null: false
   end
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
     t.integer  "client_id"
-    t.datetime "created_at", default: '2016-05-05 22:27:23', null: false
-    t.datetime "updated_at", default: '2016-05-05 22:27:23', null: false
+    t.datetime "created_at", default: '2016-05-12 21:18:12', null: false
+    t.datetime "updated_at", default: '2016-05-12 21:18:12', null: false
   end
 
   create_table "references", force: :cascade do |t|
@@ -56,8 +56,8 @@ ActiveRecord::Schema.define(version: 20160504160450) do
     t.float    "hours"
     t.date     "date"
     t.text     "notes"
-    t.datetime "created_at",    default: '2016-05-05 22:27:24', null: false
-    t.datetime "updated_at",    default: '2016-05-05 22:27:24', null: false
+    t.datetime "created_at",    default: '2016-05-12 21:18:12', null: false
+    t.datetime "updated_at",    default: '2016-05-12 21:18:12', null: false
   end
 
   create_table "users", force: :cascade do |t|
