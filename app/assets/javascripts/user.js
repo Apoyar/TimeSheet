@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    
     var projects;
     var activities;
     var placeholder1='<option value="" disabled selected>Select the project...</option>';

@@ -32,8 +32,7 @@
     
     <div class="form-group">
       <label for="date">Date:</label>
-      <input id='date' name="task[date]" value="<%= Date.today %>" type="hidden">
-      <h5>&nbsp;&nbsp;<%= Date.today %></h5>
+      <input id='date' class='form-control' name="task[date]" type="date" min="<%=Date.today-14.days%>" max='<%= Date.today%>'>
     </div>
     <br>
     
