@@ -48,7 +48,7 @@ class AdminController < ApplicationController
                 end
             end
         rescue
-            @tasks=Task.includes(:user, :client, :project, :activity).order(:date).limit(20).reverse
+            @tasks=Task.includes(:user, :client, :project, :activity).order(:date).reverse_order.limit(20)
             flash[:notice]='Listing the latest 20 tasks'
         end
         @hours=total_hours(@tasks)
